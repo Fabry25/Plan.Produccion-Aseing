@@ -1,0 +1,2860 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Plan de Producción ASEING - Ing. John F. Suárez M.Sc.</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js Library for 3D Graphics -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    :root {
+      --bg-page: #020617;
+      --bg-header: #0f172a;
+      --bg-frame: #121418;
+      --bg-card: #1a1d24;
+      --bg-card-hover: #222630;
+      --bg-card-alt: #16181f;
+      --bg-input: #121418;
+      --border-main: rgba(51, 65, 85, 0.7);
+      --border-subtle: #272d3b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --nav-glass: rgba(18, 20, 24, 0.94);
+      --frame-border: #1e293b;
+    }
+
+    /* Light Theme Palette */
+    html.theme-light {
+      --bg-page: #f1f5f9;
+      --bg-header: #ffffff;
+      --bg-frame: #ffffff;
+      --bg-card: #f8fafc;
+      --bg-card-hover: #f1f5f9;
+      --bg-card-alt: #f1f5f9;
+      --bg-input: #ffffff;
+      --border-main: rgba(203, 213, 225, 0.9);
+      --border-subtle: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-subtle: #64748b;
+      --nav-glass: rgba(255, 255, 255, 0.94);
+      --frame-border: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .theme-frame {
+      background-color: var(--bg-frame) !important;
+      border-color: var(--frame-border) !important;
+    }
+    .theme-card {
+      background-color: var(--bg-card) !important;
+      border-color: var(--border-main) !important;
+      color: var(--text-main) !important;
+    }
+    .theme-card-alt {
+      background-color: var(--bg-card-alt) !important;
+      border-color: var(--border-subtle) !important;
+    }
+    .theme-input {
+      background-color: var(--bg-input) !important;
+      border-color: var(--border-main) !important;
+      color: var(--text-main) !important;
+    }
+    .theme-text-main {
+      color: var(--text-main) !important;
+    }
+    .theme-text-muted {
+      color: var(--text-muted) !important;
+    }
+    .theme-glass-nav {
+      background: var(--nav-glass) !important;
+      border-color: var(--border-main) !important;
+    }
+
+    /* Colored indicator borders & glow */
+    .indicator-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .indicator-card:hover {
+      transform: translateY(-2px);
+    }
+    .border-accent-blue {
+      border-left: 4px solid #3b82f6 !important;
+      box-shadow: 0 4px 14px -3px rgba(59, 130, 246, 0.15);
+    }
+    .border-accent-cyan {
+      border-left: 4px solid #06b6d4 !important;
+      box-shadow: 0 4px 14px -3px rgba(6, 182, 212, 0.15);
+    }
+    .border-accent-indigo {
+      border-left: 4px solid #6366f1 !important;
+      box-shadow: 0 4px 14px -3px rgba(99, 102, 241, 0.15);
+    }
+    .border-accent-amber {
+      border-left: 4px solid #f59e0b !important;
+      box-shadow: 0 4px 14px -3px rgba(245, 158, 11, 0.15);
+    }
+    .border-accent-emerald {
+      border-left: 4px solid #10b981 !important;
+      box-shadow: 0 4px 14px -3px rgba(16, 185, 129, 0.15);
+    }
+    .border-accent-rose {
+      border-left: 4px solid #f43f5e !important;
+      box-shadow: 0 4px 14px -3px rgba(244, 63, 94, 0.15);
+    }
+    .border-accent-purple {
+      border-left: 4px solid #a855f7 !important;
+      box-shadow: 0 4px 14px -3px rgba(168, 85, 247, 0.15);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #3b82f6;
+      border-radius: 9999px;
+    }
+
+    /* Dynamic range slider with interactive hover thumb tooltip */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      padding-top: 14px;
+      padding-bottom: 2px;
+    }
+    .slider-tooltip {
+      position: absolute;
+      top: -10px;
+      transform: translateX(-50%);
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 800;
+      font-family: monospace;
+      padding: 2px 7px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.15s ease, visibility 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
+      z-index: 30;
+    }
+    .slider-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 4px 4px 0 4px;
+      border-style: solid;
+      border-color: #2563eb transparent transparent transparent;
+    }
+    .slider-container:hover .slider-tooltip,
+    .slider-container.active .slider-tooltip,
+    .custom-range:hover ~ .slider-tooltip,
+    .custom-range:active ~ .slider-tooltip,
+    .custom-range:focus ~ .slider-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    /* 3D Canvas Container */
+    #threeJsCanvasWrapper {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      overflow: hidden;
+      border-radius: 16px;
+      touch-action: none;
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 100%);
+    }
+    html.theme-light #threeJsCanvasWrapper {
+      background: radial-gradient(circle at center, rgba(241, 245, 249, 0.9) 0%, rgba(226, 232, 240, 0.8) 100%);
+    }
+    #threeTooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.92);
+      color: #ffffff;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      font-size: 11px;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+      z-index: 25;
+      transform: translate(-50%, -120%);
+      transition: opacity 0.15s ease;
+      white-space: nowrap;
+    }
+
+    /* Corporate Print Styles for Executive Report / PDF Export */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #modalReporteASEING,
+      #modalReporteASEING * {
+        visibility: visible;
+      }
+      #modalReporteASEING {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+        overflow: visible !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="h-[100dvh] flex flex-col justify-between overflow-hidden">
+
+  <header class="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-800 border-b border-blue-500/40 py-3 px-4 sticky top-0 z-50 shadow-lg transition-colors duration-200">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <!-- Left: ASEING Logo + Corporate Authorship -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-white p-1 flex items-center justify-center shadow-md border border-blue-200 shrink-0 overflow-hidden">
+          <img src="solo logo sin letras.jpg" alt="Logo ASEING" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <svg style="display:none;" viewBox="0 0 120 120" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="aseingMetal1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1e293b"/>
+                <stop offset="50%" stop-color="#64748b"/>
+                <stop offset="100%" stop-color="#0f172a"/>
+              </linearGradient>
+              <linearGradient id="aseingMetal2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#334155"/>
+                <stop offset="50%" stop-color="#94a3b8"/>
+                <stop offset="100%" stop-color="#1e293b"/>
+              </linearGradient>
+            </defs>
+            <!-- Top Ribbon Segment -->
+            <path d="M 48 26 L 72 26 C 77 26 80 30 83 35 L 92 52 L 73 68 L 59 44 L 36 44 Z" fill="url(#aseingMetal1)" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Left Ribbon Segment -->
+            <path d="M 33 49 L 55 49 L 42 73 L 55 94 L 36 94 C 31 94 27 90 25 84 L 21 71 C 19 65 21 59 25 54 Z" fill="url(#aseingMetal2)" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Bottom-Right Ribbon Segment -->
+            <path d="M 49 72 L 76 72 L 88 51 L 98 69 C 101 75 99 82 95 87 L 89 94 L 61 94 Z" fill="url(#aseingMetal1)" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- Top Magenta Sphere -->
+            <circle cx="60" cy="12" r="9" fill="#c81e56" stroke="#881337" stroke-width="1.2"/>
+            <!-- Bottom Left Cyan Sphere -->
+            <circle cx="14" cy="90" r="9" fill="#2ea3d6" stroke="#0369a1" stroke-width="1.2"/>
+            <!-- Bottom Right Yellow Sphere -->
+            <circle cx="106" cy="90" r="9" fill="#f5e01b" stroke="#ca8a04" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="text-left">
+          <h1 class="text-base sm:text-lg font-black text-white tracking-wide uppercase leading-tight drop-shadow-sm">Plan de Producción ASEING</h1>
+          <div class="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-xs text-blue-100 font-medium mt-0.5">
+            <span>Sistema Interactivo Elaborado por: <strong class="text-white font-bold">Ing. John F. Suárez J. M.Sc.</strong></span>
+            <span class="hidden sm:inline text-blue-300">|</span>
+            <span class="bg-blue-950/60 text-amber-300 px-2 py-0.5 rounded-md font-mono font-bold border border-blue-400/30 shadow-inner">Móvil: 0984661214</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Controls: Theme Switcher & View Switcher -->
+      <div class="flex items-center gap-2.5 ml-auto sm:ml-0">
+        <button id="btnThemeToggle" onclick="toggleTheme()" title="Cambiar tema Claro / Oscuro" 
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-950/80 hover:bg-blue-900 text-xs font-semibold text-amber-300 border border-blue-400/30 transition-all shadow-sm active:scale-95">
+          <i id="themeIcon" data-lucide="sun" class="w-4 h-4 text-amber-400"></i>
+          <span id="themeLabel" class="hidden sm:inline text-white">Modo Claro</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col transition-all duration-300 min-h-0 bg-[var(--bg-page)]">
+    <div id="appContainer" class="w-full max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 flex-1 flex flex-col min-h-0">
+      <div id="deviceFrame" class="relative flex-1 flex flex-col theme-frame text-slate-100 sm:rounded-2xl sm:border sm:shadow-lg w-full min-h-0 overflow-hidden sm:my-2 lg:my-4">
+
+        <!-- Scrollable Screen Content -->
+        <div id="screenContainer" class="flex-1 overflow-y-auto px-4 py-4 space-y-4 custom-scrollbar">
+
+          <!-- ============================================== -->
+          <!-- SCREEN 1: ANÁLISIS / RESUMEN PRINCIPAL         -->
+          <!-- ============================================== -->
+          <section id="screen-estudio" class="tab-content block space-y-4">
+            <div class="pt-1">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider block">Referencia o Referencias a producir:</span>
+                <div class="flex bg-slate-900/90 p-0.5 rounded-lg border border-slate-800 text-[10px]">
+                  <button type="button" id="btnModeSingle" onclick="setPlanningMode('single')" class="px-2 py-1 rounded font-semibold bg-blue-600 text-white transition-all">
+                    Individual
+                  </button>
+                  <button type="button" id="btnModeMulti" onclick="setPlanningMode('multi')" class="px-2 py-1 rounded font-semibold text-slate-400 hover:text-white transition-all">
+                    Multi-Turno
+                  </button>
+                </div>
+              </div>
+
+              <!-- Single Reference View -->
+              <div id="viewSingleRef" class="space-y-0.5">
+                <h3 id="dashReferenceName" class="text-2xl font-extrabold theme-text-main tracking-tight">Camiseta Básica M/C</h3>
+                <p id="dashReferenceMeta" class="text-xs theme-text-muted font-medium">8 operarios · 8 hrs/día</p>
+              </div>
+
+              <!-- Multi-Reference Selection & Mix View -->
+              <div id="viewMultiRef" class="hidden space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 id="dashMultiTitle" class="text-xl font-extrabold theme-text-main tracking-tight">Mix Multi-Referencias</h3>
+                    <p id="dashMultiMeta" class="text-xs theme-text-muted font-medium">Planificación combinada en 1 solo turno</p>
+                  </div>
+                  <span id="badgeSelectedCount" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/40">
+                    2 referencias
+                  </span>
+                </div>
+
+                <!-- Multi-Ref Selector Card -->
+                <div class="theme-card-alt border rounded-xl p-3 space-y-2.5">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="theme-text-main font-semibold flex items-center gap-1.5">
+                      <i data-lucide="layers" class="w-3.5 h-3.5 text-blue-400"></i>
+                      Distribución de Tiempo en el Turno
+                    </span>
+                    <button type="button" onclick="distributeEvenly()" class="text-[10px] text-blue-400 hover:text-blue-300 font-medium">
+                      Equitativo (50/50)
+                    </button>
+                  </div>
+
+                  <div id="multiRefMixContainer" class="space-y-2 text-xs">
+                    <!-- Dynamic sliders rendered by JS -->
+                  </div>
+
+                  <!-- Percentage Sum Cap Info -->
+                  <div class="flex items-center justify-between pt-1 border-t border-slate-800 text-[11px]">
+                    <span class="theme-text-muted font-semibold">Total Asignado:</span>
+                    <span id="labelTotalPercentage" class="font-extrabold font-mono text-emerald-400">100% / 100%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- KPI Metric 2x2 Grid -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="theme-card indicator-card border-accent-blue border rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-1">
+                  <span id="labelKpiStandardTime" class="text-xs font-semibold theme-text-muted block">Tiempo Estándar</span>
+                  <span class="w-2 h-2 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50"></span>
+                </div>
+                <div class="flex items-baseline gap-1">
+                  <span id="kpiStandardTime" class="text-2xl font-extrabold theme-text-main">8.35</span>
+                  <span id="unitKpiStandardTime" class="text-[11px] theme-text-muted">min/prenda</span>
+                </div>
+              </div>
+
+              <div class="theme-card indicator-card border-accent-cyan border rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-1">
+                  <span id="labelKpiProdHour" class="text-xs font-semibold theme-text-muted block">Prod. por Hora</span>
+                  <span class="w-2 h-2 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/50"></span>
+                </div>
+                <div class="flex items-baseline gap-1">
+                  <span id="kpiProdHour" class="text-2xl font-extrabold theme-text-main">57.49</span>
+                  <span class="text-[11px] theme-text-muted">unidades</span>
+                </div>
+              </div>
+
+              <div class="theme-card indicator-card border-accent-indigo border rounded-2xl p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-1">
+                  <span id="labelKpiProdShift" class="text-xs font-semibold theme-text-muted block">Prod. por Turno</span>
+                  <span class="w-2 h-2 rounded-full bg-indigo-500 shadow-sm shadow-indigo-500/50"></span>
+                </div>
+                <div class="flex items-baseline gap-1">
+                  <span id="kpiProdShift" class="text-2xl font-extrabold theme-text-main">459.88</span>
+                  <span class="text-[11px] theme-text-muted">unidades</span>
+                </div>
+              </div>
+
+              <div onclick="navigateToTab('capacidad')" class="theme-card indicator-card border-accent-amber border rounded-2xl p-4 shadow-sm cursor-pointer hover:border-amber-400 transition-all">
+                <div class="flex items-center justify-between mb-1">
+                  <span id="labelKpiOrderUnits" class="text-xs font-semibold theme-text-muted">Unidades de la Orden</span>
+                  <i data-lucide="calculator" class="w-3.5 h-3.5 text-amber-400"></i>
+                </div>
+                <div class="flex items-baseline gap-1">
+                  <span id="kpiOrderUnits" class="text-2xl font-extrabold theme-text-main">500</span>
+                  <span class="text-[11px] theme-text-muted">unidades</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3D Circular Chart: Balance del Turno por Referencia -->
+            <div class="theme-card indicator-card border-accent-emerald border rounded-2xl p-4 shadow-sm space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold theme-text-main flex items-center gap-1.5">
+                  <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
+                  Gráfico 3D: Balance del Turno por Referencia
+                </span>
+                <div class="flex items-center gap-1">
+                  <button type="button" id="btnToggle3DRotation" onclick="toggle3DAutoRotation()" title="Pausar / Reanudar Rotación 3D" 
+                    class="p-1 rounded hover:bg-slate-700/50 text-slate-400 hover:text-white transition-colors text-[10px] flex items-center gap-1">
+                    <i id="icon3DRotate" data-lucide="pause" class="w-3.5 h-3.5 text-blue-400"></i>
+                  </button>
+                  <button type="button" onclick="reset3DCamera()" title="Restablecer vista 3D"
+                    class="p-1 rounded hover:bg-slate-700/50 text-slate-400 hover:text-white transition-colors text-[10px]">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-slate-400"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3D WebGL Canvas Container with Interactive Tooltip -->
+              <div id="threeJsCanvasWrapper" class="shadow-inner border border-slate-800/80">
+                <canvas id="threeCanvas3D" class="w-full h-full block cursor-grab active:cursor-grabbing"></canvas>
+                <div id="threeTooltip"></div>
+              </div>
+
+              <!-- Colorful dynamic 3D Chart Legend -->
+              <div id="threeJsChartLegend" class="flex flex-wrap gap-2 pt-1">
+                <!-- Dynamically populated badges -->
+              </div>
+            </div>
+
+            <!-- Multi-Reference Detailed Shift Breakdown Table -->
+            <div id="multiBreakdownCard" class="hidden theme-card border rounded-2xl p-4 shadow-sm space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold theme-text-main flex items-center gap-1.5">
+                  <i data-lucide="table" class="w-4 h-4 text-emerald-400"></i>
+                  Tabla: Desglose del Turno por Referencia
+                </span>
+                <span id="multiTotalShiftUnits" class="text-xs font-extrabold text-blue-400">459 unid/turno</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="theme-text-muted uppercase text-[9px] border-b border-slate-700/60">
+                    <tr>
+                      <th class="py-1.5">Referencia</th>
+                      <th class="py-1.5 text-center">SAM</th>
+                      <th class="py-1.5 text-center">Tiempo</th>
+                      <th class="py-1.5 text-right">Meta Turno</th>
+                    </tr>
+                  </thead>
+                  <tbody id="multiBreakdownTableBody" class="divide-y divide-slate-800/60 font-medium">
+                    <!-- Dynamic breakdown rows -->
+                  </tbody>
+                  <tfoot class="border-t border-slate-700/80 font-bold text-[11px]">
+                    <tr>
+                      <td class="py-2 text-emerald-400">TOTAL TURNO</td>
+                      <td id="tfootWeightedSAM" class="py-2 text-center text-slate-300">--</td>
+                      <td id="tfootTotalMinutes" class="py-2 text-center text-blue-400">480 min</td>
+                      <td id="tfootTotalUnits" class="py-2 text-right text-emerald-400">459 unid</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <!-- Navigation Action Card 1: Catálogo de Referencias -->
+            <div onclick="navigateToTab('catalogo')" class="group theme-card hover:border-blue-500/50 border rounded-2xl p-4 cursor-pointer transition-all shadow-sm">
+              <div class="flex items-start justify-between">
+                <div class="flex items-center gap-2.5 mb-1.5">
+                  <i data-lucide="database" class="w-5 h-5 text-blue-500"></i>
+                  <h4 class="font-bold text-sm theme-text-main group-hover:text-blue-400 transition-colors">Catálogo de Referencias</h4>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 group-hover:text-blue-400 transition-all"></i>
+              </div>
+              <p class="text-xs theme-text-muted leading-relaxed">Base de tiempos estándar por prenda. Busque, agregue o edite cualquier referencia. Se puede planificar un Mix de 2 o más referencias accionando los casilleros por selección múltiple, que reflejará en ventana principal su Distribución de producción en el turno por % que puede ser calibrado manualmente según OP/turno, min/turno, Unid./turno</p>
+            </div>
+
+            <!-- Navigation Action Card 2: Mano de Obra -->
+            <div onclick="navigateToTab('mano-obra')" class="group theme-card hover:border-blue-500/50 border rounded-2xl p-4 cursor-pointer transition-all shadow-sm">
+              <div class="flex items-start justify-between">
+                <div class="flex items-center gap-2.5 mb-1.5">
+                  <i data-lucide="users" class="w-5 h-5 text-blue-500"></i>
+                  <h4 class="font-bold text-sm theme-text-main group-hover:text-blue-400 transition-colors">Mano de Obra</h4>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 group-hover:text-blue-400 transition-all"></i>
+              </div>
+              <p class="text-xs theme-text-muted leading-relaxed">Configure operarios en línea, horas trabajadas por día, simule ausentismo en jornada. Vea cómo cambia la capacidad productiva y Eficiencia real de planta.</p>
+            </div>
+
+            <!-- Navigation Action Card 3: Capacidad de Producción -->
+            <div onclick="navigateToTab('capacidad')" class="group theme-card hover:border-blue-500/50 border rounded-2xl p-4 cursor-pointer transition-all shadow-sm">
+              <div class="flex items-start justify-between">
+                <div class="flex items-center gap-2.5 mb-1.5">
+                  <i data-lucide="calculator" class="w-5 h-5 text-blue-500"></i>
+                  <h4 class="font-bold text-sm theme-text-main group-hover:text-blue-400 transition-colors">Capacidad de Producción</h4>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:translate-x-1 group-hover:text-blue-400 transition-all"></i>
+              </div>
+              <p class="text-xs theme-text-muted leading-relaxed">Calcule tiempos totales, horas requeridas, turnos y días necesarios para cumplir con órdenes de producción según el lote y los recursos disponibles.</p>
+            </div>
+          </section>
+
+          <!-- ============================================== -->
+          <!-- SCREEN 2: CATÁLOGO DE REFERENCIAS              -->
+          <!-- ============================================== -->
+          <section id="screen-catalogo" class="tab-content hidden space-y-4">
+            <div class="flex items-center gap-3">
+              <button onclick="navigateToTab('estudio')" class="p-1 theme-text-muted hover:text-blue-400 transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+              </button>
+              <div>
+                <h3 class="text-xl font-bold theme-text-main tracking-tight">Catálogo de Referencias</h3>
+                <p class="text-xs theme-text-muted">Base de datos mundial de tiempos estándar por prenda</p>
+              </div>
+            </div>
+
+            <!-- Catalog KPIs -->
+            <div class="grid grid-cols-3 gap-2">
+              <div class="theme-card indicator-card border-accent-blue border rounded-xl p-2.5 text-center shadow-sm">
+                <span class="text-[10px] font-semibold theme-text-muted uppercase tracking-wider block">Total Refs</span>
+                <span id="catKpiTotal" class="text-lg font-black theme-text-main">7</span>
+              </div>
+              <div class="theme-card indicator-card border-accent-indigo border rounded-xl p-2.5 text-center shadow-sm">
+                <span class="text-[10px] font-semibold theme-text-muted uppercase tracking-wider block">Categorías</span>
+                <span id="catKpiCat" class="text-lg font-black theme-text-main">3</span>
+              </div>
+              <div class="theme-card indicator-card border-accent-cyan border rounded-xl p-2.5 text-center shadow-sm">
+                <span class="text-[10px] font-semibold theme-text-muted uppercase tracking-wider block">SAM Promedio</span>
+                <div class="flex items-baseline justify-center gap-0.5">
+                  <span id="catKpiAvg" class="text-lg font-black text-blue-500">15.08</span>
+                  <span class="text-[9px] theme-text-muted">min</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Search Bar + Add Reference -->
+            <div class="flex flex-col sm:flex-row gap-2">
+              <div class="relative flex-1">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                <input type="text" id="catalogSearchInput" oninput="filterCatalog()" placeholder="Buscar referencia o categoría..." 
+                  class="w-full theme-input border rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:border-blue-500 transition-colors">
+              </div>
+              <button onclick="openModalReference()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs py-2 px-3.5 rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-sm">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Nueva Referencia</span>
+              </button>
+            </div>
+
+            <!-- Multi-Selection Action Toolbar -->
+            <div class="theme-card border border-blue-500/30 rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-2 text-xs shadow-sm">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                <span class="theme-text-main font-semibold">Mix para el Turno:</span>
+                <span id="catSelectedCountBadge" class="bg-blue-500/20 text-blue-400 border border-blue-500/40 font-bold px-2 py-0.5 rounded-full text-[11px]">
+                  2 seleccionadas
+                </span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="selectAllCatalogMix(true)" class="px-2 py-1 rounded theme-card hover:bg-slate-700/30 theme-text-muted text-[11px] font-medium border transition-colors">
+                  Marcar Todas
+                </button>
+                <button type="button" onclick="selectAllCatalogMix(false)" class="px-2 py-1 rounded theme-card hover:bg-slate-700/30 theme-text-muted text-[11px] font-medium border transition-colors">
+                  Limpiar
+                </button>
+                <button type="button" onclick="activateMixAndGoToAnalysis()" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold flex items-center gap-1 shadow transition-all active:scale-95">
+                  <i data-lucide="play" class="w-3 h-3"></i>
+                  <span>Planificar Mix</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Table Container -->
+            <div class="overflow-hidden rounded-2xl border theme-card-alt">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="theme-card theme-text-muted uppercase text-[10px] tracking-wider border-b">
+                    <tr>
+                      <th class="py-2.5 px-2 text-center w-10">
+                        <input type="checkbox" id="masterMixCheckbox" onchange="toggleSelectAllMix(this.checked)" title="Seleccionar/Deseleccionar todas para el Mix"
+                          class="w-3.5 h-3.5 rounded border-slate-700 bg-slate-900 text-blue-600 focus:ring-blue-500 cursor-pointer">
+                      </th>
+                      <th class="py-2.5 px-2 text-center w-8" title="Referencia individual activa">ACT</th>
+                      <th class="py-2.5 px-3">REFERENCIA</th>
+                      <th class="py-2.5 px-2">CATEGORÍA</th>
+                      <th class="py-2.5 px-2 text-center">Nº OPS.</th>
+                      <th class="py-2.5 px-3 text-right">TIEMPO ESTÁNDAR</th>
+                      <th class="py-2.5 px-3 text-center">ACCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody id="catalogTableBody" class="divide-y divide-slate-800/40 font-medium">
+                    <!-- Dynamic Rows Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <p class="text-[11px] theme-text-muted text-center italic">💡 Marque las casillas en la columna de selección para armar su grupo de referencias a producir en un solo turno.</p>
+          </section>
+
+          <!-- ============================================== -->
+          <!-- SCREEN 3: CAPACIDAD DE PRODUCCIÓN              -->
+          <!-- ============================================== -->
+          <section id="screen-capacidad" class="tab-content hidden space-y-4">
+            <div class="flex items-center gap-3">
+              <button onclick="navigateToTab('estudio')" class="p-1 theme-text-muted hover:text-blue-400 transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+              </button>
+              <div>
+                <h3 class="text-xl font-bold theme-text-main tracking-tight">Capacidad de Producción</h3>
+                <p class="text-xs theme-text-muted">
+                  <span id="capPlanModeDesc">Modo Individual:</span> <span id="capRefName" class="theme-text-main font-semibold">Camiseta Básica M/C</span> · <span id="capRefTime" class="text-blue-500 font-semibold">8.35 min/unidad</span>
+                </p>
+              </div>
+            </div>
+
+            <!-- Shift Regime Card -->
+            <div class="theme-card border rounded-2xl p-4 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold theme-text-main flex items-center gap-1.5">
+                  <i data-lucide="sun-medium" class="w-4 h-4 text-amber-400"></i>
+                  Régimen de Operación por Jornada
+                </span>
+                <span id="badgeShiftRegime" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                  1 Turno / día
+                </span>
+              </div>
+
+              <!-- Shift Selector Toggle Buttons -->
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <button type="button" id="btnShift1" onclick="setShiftsPerDay(1)"
+                  class="py-2 px-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 transition-all bg-blue-600 text-white shadow">
+                  <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                  <span>1 Turno (Diurno)</span>
+                </button>
+                <button type="button" id="btnShift2" onclick="setShiftsPerDay(2)"
+                  class="py-2 px-2.5 rounded-xl font-medium flex items-center justify-center gap-1.5 transition-all theme-card theme-text-muted hover:text-white border">
+                  <i data-lucide="moon" class="w-3.5 h-3.5 text-indigo-400"></i>
+                  <span>2 Turnos (Día + Noche)</span>
+                </button>
+              </div>
+
+              <p id="shiftRegimeExplanation" class="text-[10px] theme-text-muted italic leading-relaxed">
+                1 jornada de producción al día. Días requeridos = Turnos requeridos (Días = Turnos / 1).
+              </p>
+            </div>
+
+            <!-- Order Input Form -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3">
+              <div id="singleOrderInputBlock">
+                <label for="inputOrderUnits" class="block text-xs font-semibold theme-text-main mb-1.5">Unidades de la orden</label>
+                <input type="number" id="inputOrderUnits" oninput="handleOrderUnitsInput()" placeholder="Ej: 500" value="500" min="1"
+                  class="w-full theme-input border rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:border-blue-500 transition-colors">
+              </div>
+
+              <!-- Multi-Reference Target Order Inputs -->
+              <div id="multiOrderInputBlock" class="hidden space-y-2.5">
+                <label class="block text-xs font-semibold theme-text-main">Unidades de la orden por referencia:</label>
+                <div id="multiOrderListInputs" class="space-y-2">
+                  <!-- Rendered dynamically -->
+                </div>
+              </div>
+
+              <button onclick="calculateCapacity()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm py-2.5 rounded-xl shadow transition-all active:scale-[0.98]">
+                Calcular
+              </button>
+            </div>
+
+            <!-- Capacity Results Card -->
+            <div id="capacityResultCard" class="theme-card border rounded-2xl p-5 text-center">
+              <div id="capacityInitialState" class="space-y-2 py-4">
+                <p class="text-sm font-medium theme-text-main">Ingrese la cantidad de unidades y presione <span class="font-bold text-blue-500">Calcular</span></p>
+                <p class="text-xs theme-text-muted">
+                  Referencia activa: <span id="resActiveRef" class="theme-text-main font-semibold">Camiseta Básica M/C</span> — <span id="resActiveSAM">8.3500</span> min/unidad · <span id="resActiveOps">8</span> operarios
+                </p>
+              </div>
+
+              <!-- Computed capacity details -->
+              <div id="capacityComputedState" class="hidden space-y-4 text-left">
+                <div class="theme-card-alt indicator-card border-accent-blue border rounded-xl p-3.5">
+                  <span class="text-xs theme-text-muted font-medium">Tiempo total de manufactura de la orden</span>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="resTotalMinutes" class="text-2xl font-black text-blue-500">4,175.0</span>
+                    <span class="text-xs theme-text-muted">minutos hombre</span>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="theme-card indicator-card border-accent-cyan border p-3 rounded-xl shadow-sm">
+                    <span class="text-[11px] theme-text-muted block">Horas Necesarias</span>
+                    <span id="resHoursNeeded" class="text-lg font-bold text-cyan-500">8.70 hrs</span>
+                  </div>
+                  <div class="theme-card indicator-card border-accent-amber border p-3 rounded-xl shadow-sm">
+                    <span class="text-[11px] theme-text-muted block">Turnos Requeridos</span>
+                    <span id="resShiftsNeeded" class="text-lg font-bold text-amber-500">1.09 turnos</span>
+                  </div>
+                  <div class="theme-card indicator-card border-accent-emerald border p-3 rounded-xl shadow-sm">
+                    <div class="flex items-center justify-between mb-0.5">
+                      <span class="text-[11px] theme-text-muted block">Días de Fabricación</span>
+                      <span id="resDaysRegimeBadge" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400">1 t/día</span>
+                    </div>
+                    <span id="resDaysNeeded" class="text-lg font-bold text-emerald-500">1.1 días</span>
+                    <span id="resDaysSubtext" class="text-[9px] theme-text-muted block mt-0.5">Días reales de planta</span>
+                  </div>
+                  <div class="theme-card indicator-card border-accent-purple border p-3 rounded-xl shadow-sm">
+                    <span class="text-[11px] theme-text-muted block">Capacidad Turno Actual</span>
+                    <span id="resShiftCapacity" class="text-lg font-bold text-purple-400">459.88 unid</span>
+                  </div>
+                </div>
+
+                <!-- Delivery Schedule Card -->
+                <div class="theme-card-alt p-3 rounded-xl border flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                      <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                      <span class="text-[10px] theme-text-muted uppercase font-bold tracking-wider block">Entrega Proyectada</span>
+                      <span id="resDeliveryMoment" class="text-xs font-bold theme-text-main">Día 2 — Turno Diurno</span>
+                    </div>
+                  </div>
+                  <span id="resDailyCapacityTotal" class="text-[11px] font-mono text-blue-400 font-semibold">459 unid/día</span>
+                </div>
+
+                <div class="theme-card-alt p-3 rounded-xl border space-y-1.5">
+                  <div class="flex justify-between items-center text-[10px] theme-text-muted font-semibold uppercase tracking-wider">
+                    <span>Avance de la orden por turno</span>
+                    <span id="capChartPercent" class="font-bold text-blue-500">100%</span>
+                  </div>
+                  <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden flex" id="capChartBarContainer">
+                    <div class="bg-blue-500 h-full w-full"></div>
+                  </div>
+                  <p class="text-[10px] theme-text-muted text-center pt-1" id="capChartDesc">1 turno de producción requerido.</p>
+                </div>
+
+                <!-- Indicador Comparativo: Capacidad Turno vs Unidades Orden -->
+                <div class="theme-card indicator-card border-accent-blue border rounded-xl p-3 flex items-center justify-between shadow-sm">
+                  <div class="flex-1 text-left">
+                    <span class="text-[9px] theme-text-muted font-bold uppercase tracking-wider block">Capacidad Turno Actual</span>
+                    <div class="flex items-baseline gap-1 mt-0.5">
+                      <span id="compCapacidadTurnoVal" class="text-lg font-extrabold text-blue-400">0</span>
+                      <span class="text-[9px] theme-text-muted">unid/turno</span>
+                    </div>
+                  </div>
+                  <div class="h-8 w-px bg-slate-700/50 mx-2"></div>
+                  <div class="flex-1 text-right">
+                    <span class="text-[9px] theme-text-muted font-bold uppercase tracking-wider block">Unidades de la Orden</span>
+                    <div class="flex items-baseline justify-end gap-1 mt-0.5">
+                      <span id="compUnidadesOrdenVal" class="text-lg font-extrabold text-amber-400">0</span>
+                      <span class="text-[9px] theme-text-muted">unid/OP</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-blue-500/10 border border-blue-500/30 p-3 rounded-xl text-xs text-blue-300">
+                  <p id="resSummaryNote" class="leading-relaxed"></p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============================================== -->
+          <!-- SCREEN 4: MANO DE OBRA Y AUSENTISMO            -->
+          <!-- ============================================== -->
+          <section id="screen-mano-obra" class="tab-content hidden space-y-4">
+            <div class="flex items-center gap-3">
+              <button onclick="navigateToTab('estudio')" class="p-1 theme-text-muted hover:text-blue-400 transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+              </button>
+              <div>
+                <h3 class="text-xl font-bold theme-text-main tracking-tight">Mano de Obra</h3>
+                <p class="text-xs theme-text-muted">Control de recursos y balance de línea</p>
+              </div>
+            </div>
+
+            <!-- Card 1: Parámetros de Línea -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3.5">
+              <div class="flex items-center gap-2 theme-text-main font-bold text-xs">
+                <i data-lucide="users" class="w-4 h-4 text-blue-400"></i>
+                <span>Parámetros de Línea</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs theme-text-main font-medium">Operarios en línea</span>
+                <div class="flex items-center gap-2">
+                  <button onclick="changeWorkersBase(-1)" class="w-9 h-9 theme-input hover:bg-slate-700/40 rounded-xl flex items-center justify-center font-bold text-base transition-colors border">
+                    -
+                  </button>
+                  <span id="displayBaseWorkers" class="w-12 text-center text-base font-extrabold theme-text-main">8</span>
+                  <button onclick="changeWorkersBase(1)" class="w-9 h-9 theme-input hover:bg-slate-700/40 rounded-xl flex items-center justify-center font-bold text-base transition-colors border">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xs theme-text-main font-medium">Horas por día</span>
+                <div class="flex items-center gap-2">
+                  <button onclick="changeHoursPerDay(-1)" class="w-9 h-9 theme-input hover:bg-slate-700/40 rounded-xl flex items-center justify-center font-bold text-base transition-colors border">
+                    -
+                  </button>
+                  <span id="displayHoursDay" class="w-12 text-center text-base font-extrabold theme-text-main">8</span>
+                  <button onclick="changeHoursPerDay(1)" class="w-9 h-9 theme-input hover:bg-slate-700/40 rounded-xl flex items-center justify-center font-bold text-base transition-colors border">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <button onclick="saveWorkforceConfig()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs py-2.5 rounded-xl shadow transition-colors active:scale-[0.98]">
+                Guardar Configuración
+              </button>
+            </div>
+
+            <!-- Card 2: Simular Ausentismo -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3">
+              <div class="flex items-center gap-2 text-amber-500 font-bold text-xs">
+                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                <span>Simular Ausentismo</span>
+              </div>
+              <p class="text-xs theme-text-muted leading-relaxed">
+                Indique cuántos operarios están ausentes hoy para recalcular la capacidad real.
+              </p>
+
+              <div class="flex items-center justify-between pt-1">
+                <span class="text-xs theme-text-main font-medium">Operarios ausentes</span>
+                <div class="flex items-center gap-2">
+                  <button onclick="changeAbsentWorkers(-1)" class="w-9 h-9 theme-input hover:bg-slate-700/40 rounded-xl flex items-center justify-center font-bold text-base transition-colors border">
+                    -
+                  </button>
+                  <span id="displayAbsentWorkers" class="w-12 text-center text-base font-extrabold theme-text-main">0</span>
+                  <button onclick="changeAbsentWorkers(1)" class="w-9 h-9 theme-input hover:bg-slate-700/40 rounded-xl flex items-center justify-center font-bold text-base transition-colors border">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div id="statusPlantBanner" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs flex items-center gap-2 font-medium">
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                <span id="statusPlantText">Planta completa: 8 operarios activos</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Comparativa de Capacidad -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3">
+              <div class="flex items-center gap-2 text-blue-500 font-bold text-xs">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+                <span>Comparativa de Capacidad</span>
+              </div>
+              
+              <div class="py-2">
+                <div class="flex justify-between text-[10px] theme-text-muted mb-1 font-semibold">
+                  <span>Producción Efectiva</span>
+                  <span>Pérdida</span>
+                </div>
+                <div class="w-full h-3 bg-slate-800 rounded-full flex overflow-hidden">
+                  <div id="barReal" class="bg-emerald-500 h-full transition-all duration-500" style="width: 100%"></div>
+                  <div id="barLost" class="bg-rose-500 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="space-y-2.5 text-xs pt-1">
+                <div class="theme-card-alt indicator-card border-accent-blue border rounded-xl p-3">
+                  <div class="flex items-center justify-between">
+                    <span class="theme-text-muted font-semibold">Escenario Base</span>
+                    <span id="compBaseMeta" class="text-[11px] theme-text-muted">8 operarios · 8 hrs/día</span>
+                  </div>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="compBaseUnits" class="text-xl font-extrabold theme-text-main">459.88</span>
+                    <span class="text-[11px] theme-text-muted">unidades/turno</span>
+                  </div>
+                </div>
+
+                <div class="theme-card-alt indicator-card border-accent-emerald border rounded-xl p-3">
+                  <div class="flex items-center justify-between">
+                    <span class="theme-text-muted font-semibold">Escenario Real</span>
+                    <span id="compRealMeta" class="text-[11px] theme-text-muted">8 operarios · 8 hrs/día</span>
+                  </div>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="compRealUnits" class="text-xl font-extrabold text-emerald-500">459.88</span>
+                    <span class="text-[11px] theme-text-muted">unidades/turno</span>
+                  </div>
+                </div>
+
+                <div class="theme-card-alt indicator-card border-accent-rose border rounded-xl p-3">
+                  <div class="flex items-center justify-between">
+                    <span class="theme-text-muted font-semibold">Pérdida por Ausentismo</span>
+                    <span class="text-[11px] theme-text-muted">Producción no realizada</span>
+                  </div>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="compLostUnits" class="text-xl font-extrabold text-rose-500">0.00</span>
+                    <span class="text-[11px] theme-text-muted">unidades/turno</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Indicadores de Rendimiento -->
+            <div class="theme-card border rounded-2xl p-4 space-y-3">
+              <h4 class="font-bold text-xs theme-text-main">Indicadores de Rendimiento</h4>
+              <div class="grid grid-cols-2 gap-2.5 text-xs">
+                <div class="theme-card-alt indicator-card border-accent-blue border rounded-xl p-2.5">
+                  <span class="theme-text-muted block text-[11px]">Tiempo Estándar</span>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="indStandardTime" class="text-lg font-black theme-text-main">8.35</span>
+                    <span class="text-[10px] theme-text-muted">min</span>
+                  </div>
+                </div>
+
+                <div class="theme-card-alt indicator-card border-accent-indigo border rounded-xl p-2.5">
+                  <span class="theme-text-muted block text-[11px]">Prod. Hora (Base)</span>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="indProdHourBase" class="text-lg font-black theme-text-main">57.49</span>
+                    <span class="text-[10px] theme-text-muted">unid</span>
+                  </div>
+                </div>
+
+                <div class="theme-card-alt indicator-card border-accent-emerald border rounded-xl p-2.5">
+                  <span class="theme-text-muted block text-[11px]">Prod. Hora (Real)</span>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="indProdHourReal" class="text-lg font-black text-emerald-500">57.49</span>
+                    <span class="text-[10px] theme-text-muted">unid</span>
+                  </div>
+                </div>
+
+                <div class="theme-card-alt indicator-card border-accent-amber border rounded-xl p-2.5">
+                  <span class="theme-text-muted block text-[11px]">Eficiencia Real</span>
+                  <div class="flex items-baseline gap-1 mt-0.5">
+                    <span id="indEfficiencyReal" class="text-lg font-black text-amber-500">100%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Relocated: Eficiencia Real de Planta Gauge Indicator at the end of Mano de Obra -->
+            <div class="theme-card indicator-card border-accent-purple border rounded-2xl p-4 shadow-sm flex items-center justify-between">
+              <div>
+                <span class="text-xs font-semibold theme-text-muted block mb-1">Eficiencia Real de Planta</span>
+                <p class="text-[11px] theme-text-muted leading-tight">Calculado con los recursos reales de operarios frente a los requeridos.</p>
+              </div>
+              <div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="20" class="stroke-slate-800" stroke-width="6" fill="none"></circle>
+                  <circle id="dashEffCircle" cx="24" cy="24" r="20" class="stroke-blue-500 transition-all duration-500" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="125.6" stroke-dashoffset="0"></circle>
+                </svg>
+                <span id="dashEffText" class="absolute inset-0 flex items-center justify-center text-xs font-bold theme-text-main">100%</span>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Bottom Tab Bar Navigation -->
+        <nav class="theme-glass-nav glass-nav border-t py-2 px-2 shrink-0 z-30 transition-colors no-print">
+          <div class="grid grid-cols-5 gap-1 items-center">
+            <button id="navTab-estudio" onclick="navigateToTab('estudio')" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-blue-500 transition-colors">
+              <i data-lucide="clipboard-list" class="w-5 h-5 mb-1"></i>
+              <span class="text-[10px] font-semibold">Análisis</span>
+            </button>
+
+            <button id="navTab-catalogo" onclick="navigateToTab('catalogo')" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+              <i data-lucide="database" class="w-5 h-5 mb-1"></i>
+              <span class="text-[10px] font-semibold">T. Estándar</span>
+            </button>
+
+            <button id="navTab-mano-obra" onclick="navigateToTab('mano-obra')" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+              <i data-lucide="users" class="w-5 h-5 mb-1"></i>
+              <span class="text-[10px] font-semibold">Mano de Obra</span>
+            </button>
+
+            <button id="navTab-capacidad" onclick="navigateToTab('capacidad')" class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-400 hover:text-slate-200 transition-colors">
+              <i data-lucide="calculator" class="w-5 h-5 mb-1"></i>
+              <span class="text-[10px] font-semibold">Capacidad</span>
+            </button>
+
+            <!-- Corporate Executive KPIs & Report Trigger Button -->
+            <button id="btnExecReport" onclick="abrirReporteIndustrial()" title="Dashboard de KPIs Industriales y Reporte Ejecutivo ASEING"
+              class="flex flex-col items-center justify-center py-1.5 px-1 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-600/30 border border-blue-400/30 transition-all active:scale-95">
+              <i data-lucide="file-bar-chart-2" class="w-5 h-5 mb-0.5"></i>
+              <span class="text-[9px] font-extrabold tracking-tight uppercase">Reporte KPI</span>
+            </button>
+          </div>
+        </nav>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================== -->
+  <!-- MODAL DEL DASHBOARD E INFORME INDUSTRIAL PRO (Versión Definitiva) -->
+  <!-- ========================================================== -->
+  <div id="modalReporteASEING" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; overflow-y: auto; padding: 20px;">
+    <div style="background: #ffffff; max-width: 920px; margin: 30px auto; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); color: #1e293b; font-family: system-ui, -apple-system, sans-serif; overflow: hidden;">
+        
+      <!-- Encabezado Corporativo Azul con Autoría -->
+      <div style="background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 20px 25px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h2 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: 0.5px;">ASEING INGENIERÍA</h2>
+          <p style="margin: 4px 0 0 0; font-size: 13px; opacity: 0.9;">Asesoría Industrial &amp; Gestión de Operaciones — Reporte Ejecutivo de Planificación</p>
+          <p style="margin: 4px 0 0 0; font-size: 11px; opacity: 0.85; font-style: italic;">Elaborado por: Ing. John F. Suárez M.Sc.</p>
+        </div>
+        <button class="no-print" onclick="cerrarReporteIndustrial()" style="background: rgba(255,255,255,0.2); border: none; font-size: 16px; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; color: white; transition: background 0.2s;">✕</button>
+      </div>
+
+      <div style="padding: 25px;">
+        <!-- 1. Tarjetas de KPIs Globales con Bordes Ejecutivos -->
+        <div style="margin-top: 5px;">
+          <h3 style="font-size: 13px; color: #334155; border-left: 4px solid #0284c7; padding-left: 8px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">1. Indicadores Clave de Desempeño (KPIs Globales)</h3>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
+            <!-- Carga Requerida -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #0284c7; padding: 14px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Carga Requerida</span>
+              <h4 id="kpiHorasHombre" style="margin: 6px 0 0 0; color: #0284c7; font-size: 17px; font-weight: 700;">0.00 H-h</h4>
+            </div>
+            <!-- Capacidad Turno -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #059669; padding: 14px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Capacidad Turno</span>
+              <h4 id="kpiCapacidadTurno" style="margin: 6px 0 0 0; color: #059669; font-size: 17px; font-weight: 700;">0 unid/t</h4>
+            </div>
+            <!-- Lead Time Planta -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #d97706; padding: 14px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Lead Time Planta</span>
+              <h4 id="kpiDiasPlanta" style="margin: 6px 0 0 0; color: #d97706; font-size: 17px; font-weight: 700;">0.0 días</h4>
+            </div>
+            <!-- Ritmo Requerido -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #0891b2; padding: 14px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Ritmo Requerido</span>
+              <h4 id="kpiRitmoDiario" style="margin: 6px 0 0 0; color: #0891b2; font-size: 17px; font-weight: 700;">0 unid/d</h4>
+            </div>
+            <!-- Eficiencia / Ausentismo -->
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #7c3aed; padding: 14px; border-radius: 8px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+              <span style="font-size: 10px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Eficiencia / Ausentismo</span>
+              <h4 id="kpiEficienciaAusentismo" style="margin: 6px 0 0 0; color: #7c3aed; font-size: 17px; font-weight: 700;">100.0%</h4>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Tabla Detallada por Referencia con Totales -->
+        <div style="margin-top: 25px;">
+          <h3 style="font-size: 13px; color: #334155; border-left: 4px solid #0284c7; padding-left: 8px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">2. Desglose de Producción por Referencia &amp; Tiempos Estándar</h3>
+          <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left;">
+              <thead>
+                <tr style="background: #f1f5f9; color: #334155; border-bottom: 2px solid #cbd5e1;">
+                  <th style="padding: 10px 12px; font-weight: 600;">Referencia / Prenda</th>
+                  <th style="padding: 10px 12px; text-align: center; font-weight: 600;">Cantidad OP (unid)</th>
+                  <th style="padding: 10px 12px; text-align: center; font-weight: 600;">SAM (min)</th>
+                  <th style="padding: 10px 12px; text-align: center; font-weight: 600;">Tiempo Total (min)</th>
+                  <th style="padding: 10px 12px; text-align: center; font-weight: 600;">Mix / Participación (%)</th>
+                </tr>
+              </thead>
+              <tbody id="tablaDetalleReferenciasBody" style="color: #475569;">
+                <!-- Dinámico -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. Diagnóstico y Proyección Gerencial -->
+        <div style="margin-top: 25px;">
+          <h3 style="font-size: 13px; color: #334155; border-left: 4px solid #0284c7; padding-left: 8px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">3. Diagnóstico y Proyección Gerencial de Planta</h3>
+          <div id="textoDiagnosticoEjecutivo" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; font-size: 13px; color: #334155; line-height: 1.6;">
+            <!-- Dinámico -->
+          </div>
+        </div>
+
+        <!-- Botones de Acción del Reporte -->
+        <div class="no-print" style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+          <button onclick="window.print()" style="background: #0f172a; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px;">🖨️ Imprimir / Guardar PDF</button>
+          <button onclick="cerrarReporteIndustrial()" style="background: #e2e8f0; color: #334155; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 500; cursor: pointer; font-size: 13px;">Cerrar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: CREAR / EDITAR REFERENCIA -->
+  <div id="referenceModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-[#1a1d24] border border-slate-700/80 rounded-2xl w-full max-w-md p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h4 id="modalRefTitle" class="text-sm font-bold text-white">Nueva Referencia de Producción</h4>
+        <button onclick="closeModalReference()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="refForm" onsubmit="handleSaveReference(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="formRefId" value="">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Nombre de Referencia *</label>
+          <input type="text" id="formRefName" required placeholder="Ej: Camisa Oxford M/L"
+            class="w-full bg-[#121418] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Categoría *</label>
+            <input type="text" id="formRefCategory" required placeholder="Ej: Camisas"
+              class="w-full bg-[#121418] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Nº Operaciones *</label>
+            <input type="number" id="formRefOps" required min="1" value="10"
+              class="w-full bg-[#121418] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Tiempo Estándar SAM (min) *</label>
+          <input type="number" step="0.01" id="formRefTime" required min="0.01" value="8.35"
+            class="w-full bg-[#121418] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Descripción</label>
+          <textarea id="formRefDesc" rows="2" placeholder="Detalles de la prenda o confección..."
+            class="w-full bg-[#121418] border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModalReference()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 font-medium">
+            Cancelar
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold">
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Toast Box -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-800 border border-slate-700 text-white text-xs px-4 py-2.5 rounded-xl shadow-2xl transition-all duration-300 transform translate-y-20 opacity-0 pointer-events-none flex items-center gap-2">
+    <i data-lucide="info" class="w-4 h-4 text-blue-400"></i>
+    <span id="toastMessage">Operación realizada</span>
+  </div>
+
+  <script>
+    const DEFAULT_CATALOG = [
+      {
+        id: 'ref-1',
+        name: 'Camisa Oxford M/L',
+        category: 'Camisas',
+        operations: 15,
+        standardTime: 14.80,
+        description: 'Camisa manga larga Oxford con cuello, puño y pechera.',
+        isFavorite: false
+      },
+      {
+        id: 'ref-2',
+        name: 'Camiseta Básica M/C',
+        category: 'Camisetas',
+        operations: 10,
+        standardTime: 8.35,
+        description: 'Camiseta manga corta cuello redondo con ribete.',
+        isFavorite: true
+      },
+      {
+        id: 'ref-3',
+        name: 'Chaqueta Cerrada (Buso)',
+        category: 'Chaquetas',
+        operations: 20,
+        standardTime: 16.73,
+        description: 'Chaqueta cerrada con capucha, bolsillo canguro.',
+        isFavorite: false
+      },
+      {
+        id: 'ref-4',
+        name: 'Chaqueta Softshell',
+        category: 'Chaquetas',
+        operations: 22,
+        standardTime: 19.60,
+        description: 'Chaqueta softshell con forro polar y bolsillos con cremallera.',
+        isFavorite: false
+      },
+      {
+        id: 'ref-5',
+        name: 'Pantalón Jean Clásico 5B',
+        category: 'Pantalones',
+        operations: 26,
+        standardTime: 22.40,
+        description: 'Jean denim 14oz, 5 bolsillos, presillas y relojera.',
+        isFavorite: false
+      },
+      {
+        id: 'ref-6',
+        name: 'Polo Piqué Cuello Tejido',
+        category: 'Camisetas',
+        operations: 13,
+        standardTime: 11.20,
+        description: 'Camiseta tipo polo en piqué con botones y aberturas.',
+        isFavorite: false
+      },
+      {
+        id: 'ref-7',
+        name: 'Pantalón Jogger Deportivo',
+        category: 'Pantalones',
+        operations: 14,
+        standardTime: 12.50,
+        description: 'Jogger con elástico en cintura, cordón y puño rib.',
+        isFavorite: false
+      }
+    ];
+
+    let appState = {
+      activeTab: 'estudio',
+      viewMode: 'mobile',
+      theme: 'dark',
+      planningMode: 'single', // 'single' o 'multi'
+      catalog: [],
+      activeReferenceId: 'ref-2',
+      multiConfig: {
+        'ref-2': { selected: true, sharePercent: 50, orderUnits: 300 },
+        'ref-1': { selected: true, sharePercent: 50, orderUnits: 200 }
+      },
+      workersBase: 8,
+      hoursPerDay: 8,
+      shiftsPerDay: 1, // 1 o 2 turnos al día
+      absentWorkers: 0,
+      orderUnits: 500
+    };
+
+    /* Three.js Chart Globals */
+    let threeScene, threeCamera, threeRenderer;
+    let threeChartGroup, threeRaycaster, threeMouse;
+    let threeSlices = [];
+    let is3DAutoRotating = true;
+    let is3DDragging = false;
+    let previous3DMousePosition = { x: 0, y: 0 };
+    let hovered3DSlice = null;
+
+    const CHART_COLORS = [
+      0x3b82f6, // Blue
+      0x06b6d4, // Cyan
+      0x10b981, // Emerald
+      0xf59e0b, // Amber
+      0xec4899, // Pink
+      0x8b5cf6, // Violet
+      0xf97316  // Orange
+    ];
+
+    function applyTheme(theme) {
+      const htmlEl = document.documentElement;
+      const themeIcon = document.getElementById('themeIcon');
+      const themeLabel = document.getElementById('themeLabel');
+      const btnTheme = document.getElementById('btnThemeToggle');
+
+      if (theme === 'light') {
+        htmlEl.classList.add('theme-light');
+        if (themeIcon) themeIcon.setAttribute('data-lucide', 'moon');
+        if (themeLabel) themeLabel.textContent = "Modo Oscuro";
+        if (btnTheme) {
+          btnTheme.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/95 hover:bg-white text-xs font-semibold text-blue-900 border border-blue-200 transition-all shadow-sm active:scale-95";
+        }
+      } else {
+        htmlEl.classList.remove('theme-light');
+        if (themeIcon) themeIcon.setAttribute('data-lucide', 'sun');
+        if (themeLabel) themeLabel.textContent = "Modo Claro";
+        if (btnTheme) {
+          btnTheme.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-950/80 hover:bg-blue-900 text-xs font-semibold text-amber-300 border border-blue-400/30 transition-all shadow-sm active:scale-95";
+        }
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function toggleTheme() {
+      appState.theme = appState.theme === 'light' ? 'dark' : 'light';
+      saveState();
+      applyTheme(appState.theme);
+      showToast(appState.theme === 'light' ? 'Modo Claro activado' : 'Modo Oscuro activado');
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('prod_planner_state_v1');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          appState = { ...appState, ...parsed };
+        } else {
+          appState.catalog = [...DEFAULT_CATALOG];
+        }
+      } catch (e) {
+        console.error("Error loading localStorage", e);
+        appState.catalog = [...DEFAULT_CATALOG];
+      }
+      
+      if (!appState.catalog || appState.catalog.length === 0) {
+        appState.catalog = [...DEFAULT_CATALOG];
+      }
+
+      if (!appState.multiConfig || typeof appState.multiConfig !== 'object') {
+        appState.multiConfig = {};
+      }
+      appState.catalog.forEach((r, idx) => {
+        if (!appState.multiConfig[r.id]) {
+          appState.multiConfig[r.id] = {
+            selected: idx < 2,
+            sharePercent: idx === 0 ? 50 : (idx === 1 ? 50 : 0),
+            orderUnits: 250
+          };
+        }
+      });
+
+      appState.catalog.forEach(r => {
+        r.isFavorite = (r.id === appState.activeReferenceId);
+      });
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('prod_planner_state_v1', JSON.stringify(appState));
+      } catch (e) {
+        console.error("Error saving state", e);
+      }
+    }
+
+    function getActiveReference() {
+      return appState.catalog.find(r => r.id === appState.activeReferenceId) || appState.catalog[0];
+    }
+
+    function getSelectedMultiReferences() {
+      return appState.catalog.filter(r => appState.multiConfig[r.id]?.selected);
+    }
+
+    function computeProductionMetrics() {
+      const baseOps = Math.max(1, appState.workersBase);
+      const absent = Math.max(0, appState.absentWorkers);
+      const activeOps = Math.max(0, baseOps - absent);
+      const hours = Math.max(1, appState.hoursPerDay);
+
+      if (appState.planningMode === 'multi') {
+        const selected = getSelectedMultiReferences();
+        if (selected.length === 0) {
+          const activeRef = getActiveReference();
+          const sam = parseFloat(activeRef.standardTime) || 8.35;
+          const prodHourBase = (baseOps * 60) / sam;
+          const prodShiftBase = prodHourBase * hours;
+          const prodHourReal = (activeOps * 60) / sam;
+          const prodShiftReal = prodHourReal * hours;
+          return {
+            baseOps, activeOps, absent, hours, sam,
+            prodHourBase, prodShiftBase, prodHourReal, prodShiftReal,
+            efficiencyReal: baseOps > 0 ? (activeOps / baseOps) * 100 : 0,
+            lostUnits: Math.max(0, prodShiftBase - prodShiftReal),
+            multiBreakdown: [{
+              id: activeRef.id,
+              name: activeRef.name,
+              sam,
+              sharePercent: 100,
+              unitsShiftBase: prodShiftBase,
+              unitsShiftReal: prodShiftReal,
+              color: CHART_COLORS[0]
+            }]
+          };
+        }
+
+        let totalShare = 0;
+        selected.forEach(r => {
+          totalShare += (appState.multiConfig[r.id]?.sharePercent || 0);
+        });
+
+        let totalUnitsShiftBase = 0;
+        let totalUnitsShiftReal = 0;
+        let weightedSAMNumerator = 0;
+
+        const breakdown = selected.map((r, idx) => {
+          const rawShare = appState.multiConfig[r.id]?.sharePercent || 0;
+          const share = totalShare > 0 ? (rawShare / totalShare) : (1 / selected.length);
+          const sam = parseFloat(r.standardTime) || 8.35;
+          const shiftMinutesForRef = (hours * 60) * share;
+          
+          const unitsBase = (baseOps * shiftMinutesForRef) / sam;
+          const unitsReal = (activeOps * shiftMinutesForRef) / sam;
+
+          totalUnitsShiftBase += unitsBase;
+          totalUnitsShiftReal += unitsReal;
+          weightedSAMNumerator += (share * sam);
+
+          return {
+            id: r.id,
+            name: r.name,
+            sam,
+            sharePercent: Math.round(share * 100),
+            unitsShiftBase: unitsBase,
+            unitsShiftReal: unitsReal,
+            color: CHART_COLORS[idx % CHART_COLORS.length]
+          };
+        });
+
+        const effectiveSAM = weightedSAMNumerator > 0 ? weightedSAMNumerator : 8.35;
+        const prodHourBase = totalUnitsShiftBase / hours;
+        const prodHourReal = totalUnitsShiftReal / hours;
+        const efficiencyReal = baseOps > 0 ? (activeOps / baseOps) * 100 : 0;
+        const lostUnits = Math.max(0, totalUnitsShiftBase - totalUnitsShiftReal);
+
+        return {
+          baseOps, activeOps, absent, hours,
+          sam: effectiveSAM,
+          prodHourBase,
+          prodShiftBase: totalUnitsShiftBase,
+          prodHourReal,
+          prodShiftReal: totalUnitsShiftReal,
+          efficiencyReal,
+          lostUnits,
+          multiBreakdown: breakdown
+        };
+      } else {
+        const activeRef = getActiveReference();
+        const sam = parseFloat(activeRef.standardTime) || 8.35;
+        const prodHourBase = (baseOps * 60) / sam;
+        const prodShiftBase = prodHourBase * hours;
+        const prodHourReal = (activeOps * 60) / sam;
+        const prodShiftReal = prodHourReal * hours;
+        const efficiencyReal = baseOps > 0 ? (activeOps / baseOps) * 100 : 0;
+        const lostUnits = Math.max(0, prodShiftBase - prodShiftReal);
+
+        return {
+          baseOps, activeOps, absent, hours, sam,
+          prodHourBase, prodShiftBase, prodHourReal, prodShiftReal,
+          efficiencyReal, lostUnits,
+          multiBreakdown: [{
+            id: activeRef.id,
+            name: activeRef.name,
+            sam,
+            sharePercent: 100,
+            unitsShiftBase: prodShiftBase,
+            unitsShiftReal: prodShiftReal,
+            color: CHART_COLORS[0]
+          }]
+        };
+      }
+    }
+
+    function setPlanningMode(mode) {
+      appState.planningMode = mode;
+      saveState();
+      renderApp();
+      showToast(mode === 'multi' ? 'Modo Multi-Turno Activado' : 'Modo Individual Activado');
+    }
+
+    function setShiftsPerDay(shifts) {
+      appState.shiftsPerDay = (shifts === 2) ? 2 : 1;
+      saveState();
+      updateShiftRegimeUI();
+      renderCatalogTable();
+      calculateCapacity();
+      const metrics = computeProductionMetrics();
+      update3DChartData(metrics);
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function updateShiftRegimeUI() {
+      const btn1 = document.getElementById('btnShift1');
+      const btn2 = document.getElementById('btnShift2');
+      const badge = document.getElementById('badgeShiftRegime');
+      const desc = document.getElementById('shiftRegimeExplanation');
+
+      if (appState.shiftsPerDay === 2) {
+        if (btn2) btn2.className = "py-2 px-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow";
+        if (btn1) btn1.className = "py-2 px-2.5 rounded-xl font-medium flex items-center justify-center gap-1.5 transition-all theme-card theme-text-muted hover:text-white border";
+        if (badge) {
+          badge.textContent = "2 Turnos / día (Día + Noche)";
+          badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40";
+        }
+        if (desc) desc.textContent = "2 jornadas operativas al día (Día y Noche). Días requeridos = Turnos requeridos / 2.";
+      } else {
+        if (btn1) btn1.className = "py-2 px-2.5 rounded-xl font-bold flex items-center justify-center gap-1.5 transition-all bg-blue-600 text-white shadow";
+        if (btn2) btn2.className = "py-2 px-2.5 rounded-xl font-medium flex items-center justify-center gap-1.5 transition-all theme-card theme-text-muted hover:text-white border";
+        if (badge) {
+          badge.textContent = "1 Turno / día (Diurno)";
+          badge.className = "text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30";
+        }
+        if (desc) desc.textContent = "1 jornada de producción al día. Días requeridos = Turnos requeridos / 1.";
+      }
+    }
+
+    function renderMultiMixControls(metrics) {
+      const container = document.getElementById('multiRefMixContainer');
+      const countBadge = document.getElementById('badgeSelectedCount');
+      if (!container) return;
+
+      const selected = getSelectedMultiReferences();
+      if (countBadge) countBadge.textContent = `${selected.length} referencia${selected.length === 1 ? '' : 's'}`;
+
+      if (selected.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-3 text-slate-400">
+            <p>No ha seleccionado referencias para el mix.</p>
+            <button onclick="navigateToTab('catalogo')" class="mt-2 text-xs text-blue-400 underline font-semibold">Ir al Catálogo para seleccionar</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = '';
+      let sumPercent = 0;
+
+      selected.forEach(r => {
+        const share = appState.multiConfig[r.id]?.sharePercent || 0;
+        sumPercent += share;
+        const itemRow = document.createElement('div');
+        itemRow.className = "bg-[#121418] p-2.5 rounded-xl border border-slate-800 space-y-1";
+        
+        itemRow.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <button onclick="toggleMultiRefSelection('${r.id}', event)" title="Quitar del mix" class="text-rose-400 hover:text-rose-300">
+                <i data-lucide="minus-circle" class="w-4 h-4"></i>
+              </button>
+              <span class="font-bold text-slate-200">${r.name}</span>
+              <span class="text-[10px] text-blue-400">SAM ${parseFloat(r.standardTime).toFixed(2)}m</span>
+            </div>
+            <span id="badge-share-${r.id}" class="font-extrabold text-white text-xs">${share}% del turno</span>
+          </div>
+          <div class="slider-container" id="container-${r.id}">
+            <input type="range" min="1" max="100" value="${share}" 
+              id="slider-${r.id}"
+              title="Porcentaje del turno: ${share}%"
+              oninput="handleSliderChange('${r.id}', this)"
+              onmousemove="positionSliderTooltip('${r.id}', this)"
+              onmouseenter="positionSliderTooltip('${r.id}', this)"
+              class="custom-range">
+            <div id="tooltip-${r.id}" class="slider-tooltip" style="left: ${getSliderThumbPercentage(share)}%;">
+              ${share}%
+            </div>
+          </div>
+        `;
+        container.appendChild(itemRow);
+      });
+
+      const totalLabel = document.getElementById('labelTotalPercentage');
+      if (totalLabel) {
+        totalLabel.textContent = `${sumPercent}% / 100%`;
+        totalLabel.className = sumPercent === 100 ? 'font-extrabold font-mono text-emerald-400' : 'font-extrabold font-mono text-amber-400';
+      }
+    }
+
+    function getSliderThumbPercentage(val) {
+      const min = 1;
+      const max = 100;
+      const ratio = (val - min) / (max - min);
+      return Math.min(97, Math.max(3, ratio * 100));
+    }
+
+    function positionSliderTooltip(id, input) {
+      const tooltip = document.getElementById(`tooltip-${id}`);
+      if (!tooltip) return;
+      const val = parseInt(input.value, 10) || 1;
+      const thumbPos = getSliderThumbPercentage(val);
+      tooltip.style.left = `${thumbPos}%`;
+      tooltip.textContent = `${val}%`;
+      input.title = `Porcentaje del turno: ${val}%`;
+    }
+
+    function handleSliderChange(id, input) {
+      const val = parseInt(input.value, 10) || 1;
+      positionSliderTooltip(id, input);
+      const labelBadge = document.getElementById(`badge-share-${id}`);
+      if (labelBadge) {
+        labelBadge.textContent = `${val}% del turno`;
+      }
+      updateMultiShare(id, val);
+    }
+
+    function updateMultiShare(id, val) {
+      if (!appState.multiConfig[id]) return;
+      appState.multiConfig[id].sharePercent = val;
+      
+      const selected = getSelectedMultiReferences();
+      if (selected.length === 2) {
+        const other = selected.find(r => r.id !== id);
+        if (other && appState.multiConfig[other.id]) {
+          const remaining = Math.max(1, 100 - val);
+          appState.multiConfig[other.id].sharePercent = remaining;
+          const otherBadge = document.getElementById(`badge-share-${other.id}`);
+          const otherSlider = document.getElementById(`slider-${other.id}`);
+          if (otherBadge) otherBadge.textContent = `${remaining}% del turno`;
+          if (otherSlider) {
+            otherSlider.value = remaining;
+            positionSliderTooltip(other.id, otherSlider);
+          }
+        }
+      }
+
+      saveState();
+      const metrics = computeProductionMetrics();
+      renderMultiBreakdownTable(metrics);
+      update3DChartData(metrics);
+
+      let sumPercent = 0;
+      selected.forEach(r => {
+        sumPercent += (appState.multiConfig[r.id]?.sharePercent || 0);
+      });
+      const totalLabel = document.getElementById('labelTotalPercentage');
+      if (totalLabel) {
+        totalLabel.textContent = `${sumPercent}% / 100%`;
+        totalLabel.className = sumPercent === 100 ? 'font-extrabold font-mono text-emerald-400' : 'font-extrabold font-mono text-amber-400';
+      }
+
+      document.getElementById('kpiStandardTime').textContent = metrics.sam.toFixed(2);
+      document.getElementById('kpiProdHour').textContent = metrics.prodHourBase.toFixed(2);
+      document.getElementById('kpiProdShift').textContent = metrics.prodShiftBase.toFixed(2);
+    }
+
+    function distributeEvenly() {
+      const selected = getSelectedMultiReferences();
+      if (selected.length === 0) return;
+      const share = Math.floor(100 / selected.length);
+      const remainder = 100 - (share * selected.length);
+
+      selected.forEach((r, idx) => {
+        appState.multiConfig[r.id].sharePercent = share + (idx === 0 ? remainder : 0);
+      });
+
+      saveState();
+      renderApp();
+      showToast("Distribución equitativa aplicada");
+    }
+
+    function renderMultiBreakdownTable(metrics) {
+      const tbody = document.getElementById('multiBreakdownTableBody');
+      const totalShiftUnitsEl = document.getElementById('multiTotalShiftUnits');
+      const tfSAM = document.getElementById('tfootWeightedSAM');
+      const tfTotalMins = document.getElementById('tfootTotalMinutes');
+      const tfTotalUnits = document.getElementById('tfootTotalUnits');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      if (totalShiftUnitsEl) {
+        totalShiftUnitsEl.textContent = `${metrics.prodShiftBase.toFixed(0)} unid/turno`;
+      }
+
+      const totalShiftMins = appState.hoursPerDay * 60;
+      if (tfSAM) tfSAM.textContent = `${metrics.sam.toFixed(2)}m (ponderado)`;
+      if (tfTotalMins) tfTotalMins.textContent = `${totalShiftMins} min`;
+      if (tfTotalUnits) tfTotalUnits.textContent = `${metrics.prodShiftBase.toFixed(1)} unid`;
+
+      metrics.multiBreakdown.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-2">
+            <span class="font-semibold text-slate-200 block truncate max-w-[130px] sm:max-w-none">${item.name}</span>
+            <span class="text-[9px] text-slate-500">${item.sharePercent}% del turno</span>
+          </td>
+          <td class="py-2 text-center text-slate-400">${item.sam.toFixed(2)}m</td>
+          <td class="py-2 text-center font-mono text-blue-400">${(totalShiftMins * (item.sharePercent / 100)).toFixed(0)} min</td>
+          <td class="py-2 text-right font-bold text-emerald-400">${item.unitsShiftBase.toFixed(1)} unid</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderMultiOrderInputs(metrics) {
+      const container = document.getElementById('multiOrderListInputs');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const selected = getSelectedMultiReferences();
+      selected.forEach(r => {
+        const currentUnits = appState.multiConfig[r.id]?.orderUnits || 250;
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between gap-2 bg-[#121418] p-2 rounded-xl border border-slate-800";
+        row.innerHTML = `
+          <div class="truncate max-w-[160px]">
+            <span class="text-xs font-semibold text-white block truncate">${r.name}</span>
+            <span class="text-[10px] text-slate-400">SAM ${parseFloat(r.standardTime).toFixed(2)} min</span>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            <input type="number" min="1" value="${currentUnits}" oninput="updateMultiOrderUnit('${r.id}', this.value)"
+              class="w-24 bg-[#1a1d24] border border-slate-700 rounded-lg px-2 py-1 text-xs text-right font-bold text-white focus:outline-none focus:border-blue-500">
+            <span class="text-[10px] text-slate-400">unid</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function updateMultiOrderUnit(id, val) {
+      if (!appState.multiConfig[id]) return;
+      appState.multiConfig[id].orderUnits = parseInt(val, 10) || 0;
+      saveState();
+      calculateCapacity();
+    }
+
+    function renderCatalogTable(filterQuery = '') {
+      const tbody = document.getElementById('catalogTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      const query = filterQuery.toLowerCase().trim();
+
+      const filtered = appState.catalog.filter(item => {
+        return item.name.toLowerCase().includes(query) || 
+               item.category.toLowerCase().includes(query) ||
+               (item.description && item.description.toLowerCase().includes(query));
+      });
+
+      const selectedCount = getSelectedMultiReferences().length;
+      const badge = document.getElementById('catSelectedCountBadge');
+      if (badge) {
+        badge.textContent = `${selectedCount} seleccionada${selectedCount === 1 ? '' : 's'}`;
+      }
+
+      const masterCheckbox = document.getElementById('masterMixCheckbox');
+      if (masterCheckbox) {
+        masterCheckbox.checked = appState.catalog.length > 0 && selectedCount === appState.catalog.length;
+        masterCheckbox.indeterminate = selectedCount > 0 && selectedCount < appState.catalog.length;
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-6 text-center text-slate-500">
+              No se encontraron referencias para "${filterQuery}".
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const isActive = item.id === appState.activeReferenceId;
+        const isInMulti = !!appState.multiConfig[item.id]?.selected;
+        const tr = document.createElement('tr');
+        tr.className = `transition-colors group ${
+          isInMulti ? 'bg-slate-900/60' : 'hover:bg-slate-800/40'
+        } ${isActive ? 'border-l-4 border-l-blue-500' : ''}`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-2 text-center" onclick="event.stopPropagation()">
+            <label class="inline-flex items-center justify-center p-1 cursor-pointer">
+              <input type="checkbox" ${isInMulti ? 'checked' : ''} onchange="toggleMultiRefSelection('${item.id}', event)" 
+                class="w-4 h-4 rounded border-slate-700 bg-slate-950 text-blue-600 focus:ring-blue-500 focus:ring-offset-slate-900 cursor-pointer">
+            </label>
+          </td>
+          <td class="py-3 px-2 text-center">
+            <button onclick="toggleFavorite('${item.id}', event)" title="${isActive ? 'Referencia activa individual' : 'Fijar como referencia activa individual'}" class="p-1 text-slate-400 hover:text-amber-400 transition-transform active:scale-125">
+              <i data-lucide="star" class="w-4 h-4 ${isActive ? 'text-amber-400 fill-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.5)]' : 'text-slate-600 hover:text-amber-300'}"></i>
+            </button>
+          </td>
+          <td class="py-3 px-3 cursor-pointer" onclick="toggleMultiRefSelection('${item.id}', event)">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-100 group-hover:text-blue-400 transition-colors">${item.name}</span>
+              ${isActive ? '<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-600/30 text-blue-400 border border-blue-500/40">INDIVIDUAL</span>' : ''}
+              ${isInMulti ? '<span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-600/30 text-emerald-400 border border-emerald-500/40">EN MIX</span>' : ''}
+            </div>
+            <div class="text-[10px] text-slate-400 truncate max-w-[140px] sm:max-w-xs">${item.description || ''}</div>
+          </td>
+          <td class="py-3 px-2">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+              ${item.category}
+            </span>
+          </td>
+          <td class="py-3 px-2 text-center text-slate-300 font-semibold">
+            ${item.operations}
+          </td>
+          <td class="py-3 px-3 text-right font-mono">
+            <span class="font-extrabold text-white">${parseFloat(item.standardTime).toFixed(2)}</span>
+            <span class="text-[10px] text-slate-400">min</span>
+          </td>
+          <td class="py-3 px-3 text-center" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-center gap-1">
+              <button onclick="openModalReference('${item.id}', event)" title="Editar" class="p-1 rounded hover:bg-slate-700 text-slate-400 hover:text-white">
+                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+              </button>
+              <button onclick="deleteReference('${item.id}', event)" title="Eliminar" class="p-1 rounded hover:bg-rose-900/60 text-slate-400 hover:text-rose-400">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function toggleMultiRefSelection(id, event) {
+      if (event) event.stopPropagation();
+      if (!appState.multiConfig[id]) {
+        appState.multiConfig[id] = { selected: false, sharePercent: 20, orderUnits: 250 };
+      }
+      appState.multiConfig[id].selected = !appState.multiConfig[id].selected;
+
+      const selected = getSelectedMultiReferences();
+      if (selected.length > 0) {
+        const share = Math.floor(100 / selected.length);
+        const remainder = 100 - (share * selected.length);
+        selected.forEach((r, idx) => {
+          appState.multiConfig[r.id].sharePercent = share + (idx === 0 ? remainder : 0);
+        });
+      }
+
+      saveState();
+      renderApp();
+      showToast(appState.multiConfig[id].selected ? 'Prenda agregada al mix' : 'Prenda retirada del mix');
+    }
+
+    function selectAllCatalogMix(select) {
+      appState.catalog.forEach(r => {
+        if (!appState.multiConfig[r.id]) {
+          appState.multiConfig[r.id] = { selected: false, sharePercent: 20, orderUnits: 250 };
+        }
+        appState.multiConfig[r.id].selected = !!select;
+      });
+
+      const selected = getSelectedMultiReferences();
+      if (selected.length > 0) {
+        const share = Math.floor(100 / selected.length);
+        const remainder = 100 - (share * selected.length);
+        selected.forEach((r, idx) => {
+          appState.multiConfig[r.id].sharePercent = share + (idx === 0 ? remainder : 0);
+        });
+      }
+
+      saveState();
+      renderApp();
+      showToast(select ? 'Todas las referencias seleccionadas para el mix' : 'Mix limpiado');
+    }
+
+    function toggleSelectAllMix(checked) {
+      selectAllCatalogMix(checked);
+    }
+
+    function activateMixAndGoToAnalysis() {
+      appState.planningMode = 'multi';
+      saveState();
+      navigateToTab('estudio');
+      renderApp();
+      showToast("Modo Multi-Turno preparado en Análisis");
+    }
+
+    function filterCatalog() {
+      const val = document.getElementById('catalogSearchInput').value;
+      renderCatalogTable(val);
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function setActiveReference(id) {
+      appState.activeReferenceId = id;
+      appState.catalog.forEach(r => {
+        r.isFavorite = (r.id === id);
+      });
+      saveState();
+      renderApp();
+      showToast(`Referencia activa: ${getActiveReference().name}`);
+    }
+
+    function toggleFavorite(id, e) {
+      e.stopPropagation();
+      setActiveReference(id);
+    }
+
+    function deleteReference(id, e) {
+      e.stopPropagation();
+      if (appState.catalog.length <= 1) {
+        showToast("No se puede eliminar la única referencia existente.");
+        return;
+      }
+      appState.catalog = appState.catalog.filter(r => r.id !== id);
+      delete appState.multiConfig[id];
+      if (appState.activeReferenceId === id) {
+        appState.activeReferenceId = appState.catalog[0].id;
+      }
+      saveState();
+      renderApp();
+      showToast("Referencia eliminada");
+    }
+
+    function openModalReference(id = null, e = null) {
+      if (e) e.stopPropagation();
+      const modal = document.getElementById('referenceModal');
+      const form = document.getElementById('refForm');
+      const title = document.getElementById('modalRefTitle');
+
+      form.reset();
+      if (id) {
+        const item = appState.catalog.find(r => r.id === id);
+        if (item) {
+          title.textContent = "Editar Referencia";
+          document.getElementById('formRefId').value = item.id;
+          document.getElementById('formRefName').value = item.name;
+          document.getElementById('formRefCategory').value = item.category;
+          document.getElementById('formRefOps').value = item.operations;
+          document.getElementById('formRefTime').value = item.standardTime;
+          document.getElementById('formRefDesc').value = item.description || '';
+        }
+      } else {
+        title.textContent = "Nueva Referencia";
+        document.getElementById('formRefId').value = '';
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeModalReference() {
+      document.getElementById('referenceModal').classList.add('hidden');
+    }
+
+    function handleSaveReference(e) {
+      e.preventDefault();
+      const id = document.getElementById('formRefId').value;
+      const name = document.getElementById('formRefName').value.trim();
+      const category = document.getElementById('formRefCategory').value.trim();
+      const operations = parseInt(document.getElementById('formRefOps').value, 10) || 1;
+      const standardTime = parseFloat(document.getElementById('formRefTime').value) || 1.0;
+      const description = document.getElementById('formRefDesc').value.trim();
+
+      if (id) {
+        const index = appState.catalog.findIndex(r => r.id === id);
+        if (index !== -1) {
+          appState.catalog[index] = {
+            ...appState.catalog[index],
+            name,
+            category,
+            operations,
+            standardTime,
+            description
+          };
+        }
+      } else {
+        const newRef = {
+          id: 'ref-' + Date.now(),
+          name,
+          category,
+          operations,
+          standardTime,
+          description,
+          isFavorite: true
+        };
+        appState.catalog.unshift(newRef);
+        appState.activeReferenceId = newRef.id;
+        appState.multiConfig[newRef.id] = { selected: true, sharePercent: 25, orderUnits: 250 };
+        appState.catalog.forEach(r => {
+          r.isFavorite = (r.id === newRef.id);
+        });
+      }
+
+      saveState();
+      closeModalReference();
+      renderApp();
+      showToast("Referencia guardada con éxito");
+    }
+
+    function changeWorkersBase(delta) {
+      appState.workersBase = Math.max(1, appState.workersBase + delta);
+      if (appState.absentWorkers > appState.workersBase) {
+        appState.absentWorkers = appState.workersBase;
+      }
+      renderApp();
+    }
+
+    function changeHoursPerDay(delta) {
+      appState.hoursPerDay = Math.max(1, Math.min(24, appState.hoursPerDay + delta));
+      renderApp();
+    }
+
+    function changeAbsentWorkers(delta) {
+      const next = appState.absentWorkers + delta;
+      if (next >= 0 && next <= appState.workersBase) {
+        appState.absentWorkers = next;
+        renderApp();
+      }
+    }
+
+    function saveWorkforceConfig() {
+      saveState();
+      showToast("Configuración de línea guardada correctamente");
+    }
+
+    function handleOrderUnitsInput() {
+      const unitsInput = document.getElementById('inputOrderUnits');
+      const units = parseInt(unitsInput.value, 10);
+      if (!isNaN(units) && units > 0) {
+        appState.orderUnits = units;
+        const kpiUnits = document.getElementById('kpiOrderUnits');
+        if (kpiUnits) kpiUnits.textContent = units.toLocaleString('es-EC');
+        saveState();
+      }
+    }
+
+    function calculateCapacity() {
+      const computedState = document.getElementById('capacityComputedState');
+      const initialState = document.getElementById('capacityInitialState');
+
+      const metrics = computeProductionMetrics();
+      const activeOps = metrics.activeOps > 0 ? metrics.activeOps : metrics.baseOps;
+
+      let totalMinutesMan = 0;
+      let unitsCount = 0;
+
+      if (appState.planningMode === 'multi') {
+        const selected = getSelectedMultiReferences();
+        if (selected.length === 0) {
+          computedState.classList.add('hidden');
+          initialState.classList.remove('hidden');
+          return;
+        }
+
+        selected.forEach(r => {
+          const sam = parseFloat(r.standardTime) || 1.0;
+          const u = appState.multiConfig[r.id]?.orderUnits || 250;
+          totalMinutesMan += (u * sam);
+          unitsCount += u;
+        });
+      } else {
+        const unitsInput = document.getElementById('inputOrderUnits');
+        const units = parseInt(unitsInput.value, 10);
+
+        if (isNaN(units) || units <= 0) {
+          computedState.classList.add('hidden');
+          initialState.classList.remove('hidden');
+          return;
+        }
+
+        appState.orderUnits = units;
+        unitsCount = units;
+        totalMinutesMan = units * metrics.sam;
+      }
+
+      saveState();
+
+      const kpiUnits = document.getElementById('kpiOrderUnits');
+      if (kpiUnits) kpiUnits.textContent = unitsCount.toLocaleString('es-EC');
+
+      const teamMinutesPerShift = activeOps * metrics.hours * 60;
+      const shiftsNeeded = teamMinutesPerShift > 0 ? (totalMinutesMan / teamMinutesPerShift) : 0;
+      const hoursNeeded = shiftsNeeded * metrics.hours;
+
+      const shiftsPerDay = appState.shiftsPerDay === 2 ? 2 : 1;
+      const daysNeeded = shiftsNeeded / shiftsPerDay;
+
+      const shiftCapacityUnits = metrics.prodShiftReal > 0 ? metrics.prodShiftReal : metrics.prodShiftBase;
+      const dailyCapacityUnits = shiftCapacityUnits * shiftsPerDay;
+
+      document.getElementById('resTotalMinutes').textContent = totalMinutesMan.toLocaleString('es-EC', { maximumFractionDigits: 1 });
+      document.getElementById('resHoursNeeded').textContent = `${hoursNeeded.toFixed(2)} hrs`;
+      document.getElementById('resShiftsNeeded').textContent = `${shiftsNeeded.toFixed(2)} turnos`;
+      document.getElementById('resDaysNeeded').textContent = `${daysNeeded.toFixed(2)} días`;
+      document.getElementById('resShiftCapacity').textContent = `${shiftCapacityUnits.toFixed(2)} unid`;
+
+      const resDailyCapacityTotal = document.getElementById('resDailyCapacityTotal');
+      if (resDailyCapacityTotal) {
+        resDailyCapacityTotal.textContent = `${dailyCapacityUnits.toFixed(0)} unid/día (${shiftsPerDay}t)`;
+      }
+
+      const resDeliveryMoment = document.getElementById('resDeliveryMoment');
+      if (resDeliveryMoment) {
+        if (shiftsNeeded <= 0) {
+          resDeliveryMoment.textContent = "Sin orden definida";
+        } else if (shiftsPerDay === 1) {
+          const completionDay = Math.ceil(shiftsNeeded);
+          resDeliveryMoment.textContent = `Día ${completionDay} — Turno Diurno`;
+        } else {
+          const totalShiftsCeil = Math.ceil(shiftsNeeded);
+          const completionDay = Math.ceil(totalShiftsCeil / 2);
+          const isNight = (totalShiftsCeil % 2 === 0);
+          resDeliveryMoment.textContent = `Día ${completionDay} — Turno ${isNight ? 'Nocturno 🌙' : 'Diurno ☀️'}`;
+        }
+      }
+
+      const chartContainer = document.getElementById('capChartBarContainer');
+      const chartDesc = document.getElementById('capChartDesc');
+      if (chartContainer) {
+        chartContainer.innerHTML = '';
+        const wholeShifts = Math.floor(shiftsNeeded);
+        const fraction = shiftsNeeded - wholeShifts;
+        let totalSegments = wholeShifts + (fraction > 0 ? 1 : 0);
+        let descText = "";
+
+        if (totalSegments === 0) {
+           chartContainer.innerHTML = `<div class="bg-slate-700 h-full w-full"></div>`;
+           descText = "Orden completable en menos de 1 turno";
+        } else {
+           for (let i = 0; i < wholeShifts; i++) {
+             const segment = document.createElement('div');
+             const isNightShift = (shiftsPerDay === 2 && (i % 2 === 1));
+             segment.className = `${isNightShift ? 'bg-indigo-600' : 'bg-blue-600'} h-full border-r border-slate-900 transition-all`;
+             segment.title = isNightShift ? `Turno Noche #${Math.ceil((i+1)/2)}` : `Turno Día #${Math.ceil((i+1)/2)}`;
+             segment.style.width = `${100 / totalSegments}%`;
+             chartContainer.appendChild(segment);
+           }
+           if (fraction > 0) {
+             const fractionSegment = document.createElement('div');
+             const isNightLast = (shiftsPerDay === 2 && (wholeShifts % 2 === 1));
+             fractionSegment.className = `${isNightLast ? 'bg-indigo-600/40' : 'bg-blue-600/40'} h-full border-r border-slate-900 transition-all relative`;
+             fractionSegment.style.width = `${100 / totalSegments}%`;
+             
+             const innerFill = document.createElement('div');
+             innerFill.className = `${isNightLast ? 'bg-indigo-500' : 'bg-blue-500'} h-full absolute left-0 top-0 transition-all`;
+             innerFill.style.width = `${fraction * 100}%`;
+             
+             fractionSegment.appendChild(innerFill);
+             chartContainer.appendChild(fractionSegment);
+           }
+           descText = shiftsPerDay === 2
+            ? `${totalSegments} turnos en total distribuidos en 2 turnos/día (Día y Noche) = ~${daysNeeded.toFixed(1)} días calendario de planta.`
+            : `Distribución calculada en ${totalSegments} turno(s) laborales a 1 turno/día = ~${daysNeeded.toFixed(1)} días de planta.`;
+        }
+        if (chartDesc) chartDesc.textContent = descText;
+      }
+
+      // Populate comparative indicator
+      const compCapTurnoEl = document.getElementById('compCapacidadTurnoVal');
+      const compUnidOrdenEl = document.getElementById('compUnidadesOrdenVal');
+      if (compCapTurnoEl) compCapTurnoEl.textContent = shiftCapacityUnits.toFixed(1);
+      if (compUnidOrdenEl) compUnidOrdenEl.textContent = unitsCount.toLocaleString('es-EC');
+
+      const summary = document.getElementById('resSummaryNote');
+      const regimeText = shiftsPerDay === 2 
+        ? `trabajando a <strong>doble turno (Turno Día y Turno Noche)</strong> se requieren <strong>${shiftsNeeded.toFixed(2)} turnos totales</strong>, completando el pedido en <strong>${daysNeeded.toFixed(2)} días hábiles de planta</strong>`
+        : `trabajando a <strong>1 solo turno diario</strong> se requieren <strong>${shiftsNeeded.toFixed(2)} turnos</strong> equivalentes a <strong>${daysNeeded.toFixed(2)} días de fabricación</strong>`;
+
+      if (appState.planningMode === 'multi') {
+        summary.innerHTML = `Planificación Multi-Referencias: Para completar el mix de <strong>${unitsCount} unidades</strong> en lote con <strong>${activeOps} operarios</strong> laborando <strong>${metrics.hours} hrs/turno</strong>, ${regimeText} (SAM ponderado: ${metrics.sam.toFixed(2)} min).`;
+      } else {
+        summary.innerHTML = `Para completar <strong>${unitsCount} unidades</strong> de <em>${getActiveReference().name}</em> con <strong>${activeOps} operarios</strong> trabajando <strong>${metrics.hours} hrs/turno</strong>, ${regimeText}.`;
+      }
+
+      initialState.classList.add('hidden');
+      computedState.classList.remove('hidden');
+    }
+
+    /* ========================================================== */
+    /* SCRIPT DE CONTROL Y CÁLCULO DE TOTALES                     */
+    /* ========================================================== */
+    function abrirReporteIndustrial() {
+      // Sincronizar las variables globales en tiempo real desde el estado activo de la app
+      const metrics = computeProductionMetrics();
+      const activeRef = getActiveReference();
+      const shiftsPerDay = appState.shiftsPerDay === 2 ? 2 : 1;
+      const effectiveOps = metrics.activeOps > 0 ? metrics.activeOps : metrics.baseOps;
+
+      let currentMixList = [];
+      if (appState.planningMode === 'multi') {
+        const selected = getSelectedMultiReferences();
+        if (selected.length > 0) {
+          currentMixList = selected.map(r => ({
+            nombre: r.name,
+            cant: parseInt(appState.multiConfig[r.id]?.orderUnits, 10) || 250,
+            sam: parseFloat(r.standardTime) || 8.35
+          }));
+        }
+      }
+      if (currentMixList.length === 0) {
+        currentMixList = [{
+          nombre: activeRef.name,
+          cant: parseInt(appState.orderUnits, 10) || 500,
+          sam: parseFloat(activeRef.standardTime) || 8.35
+        }];
+      }
+
+      let calcTotalUnidades = 0;
+      let calcTotalMinutos = 0;
+      currentMixList.forEach(ref => {
+        calcTotalUnidades += ref.cant;
+        calcTotalMinutos += (ref.cant * ref.sam);
+      });
+
+      const capTurno = metrics.prodShiftReal > 0 ? metrics.prodShiftReal : metrics.prodShiftBase;
+      const teamMinutesPerShift = effectiveOps * metrics.hours * 60;
+      const turnosReq = teamMinutesPerShift > 0 ? (calcTotalMinutos / teamMinutesPerShift) : 0;
+      const calcDiasPlanta = turnosReq > 0 ? (turnosReq / shiftsPerDay) : 0.01;
+
+      window.referenciasMixActual = currentMixList;
+      window.totalUnidadesOP = calcTotalUnidades;
+      window.totalMinutosOP = calcTotalMinutos;
+      window.capacidadTurnoActual = capTurno;
+      window.diasPlanta = calcDiasPlanta;
+      window.eficienciaManoDeObraActual = metrics.efficiencyReal;
+
+      let totalUnidadesOP = window.totalUnidadesOP || 1000;
+      let totalMinutosOP = window.totalMinutosOP || 11390;
+      let horasHombre = totalMinutosOP / 60;
+      let capacidadTurno = window.capacidadTurnoActual || 342.35;
+      let diasPlanta = window.diasPlanta || 2.97;
+      let ritmoDiario = (totalUnidadesOP / diasPlanta).toFixed(1);
+      let eficienciaPlanta = window.eficienciaManoDeObraActual !== undefined ? window.eficienciaManoDeObraActual : 100.0;
+
+      // Asignar valores a KPIs
+      document.getElementById('kpiHorasHombre').innerText = horasHombre.toFixed(2) + " H-h";
+      document.getElementById('kpiCapacidadTurno').innerText = capacidadTurno.toFixed(2) + " unid/t";
+      document.getElementById('kpiDiasPlanta').innerText = diasPlanta.toFixed(2) + " días";
+      document.getElementById('kpiRitmoDiario').innerText = ritmoDiario + " unid/d";
+
+      const elemEficiencia = document.getElementById('kpiEficienciaAusentismo');
+      elemEficiencia.innerText = eficienciaPlanta.toFixed(1) + "%";
+      elemEficiencia.style.color = eficienciaPlanta < 100 ? '#dc2626' : '#7c3aed';
+
+      // Poblar la tabla de referencias y calcular totales
+      const tbody = document.getElementById('tablaDetalleReferenciasBody');
+      tbody.innerHTML = '';
+
+      const referenciasActivas = window.referenciasMixActual || [
+        { nombre: "Camisa Oxford M/L", cant: 250, sam: 14.80 },
+        { nombre: "Camiseta Básica M/C", cant: 250, sam: 8.35 },
+        { nombre: "Polo Piqué Cuello Tejido", cant: 250, sam: 11.20 },
+        { nombre: "Pantalón Jogger Deportivo", cant: 250, sam: 12.50 }
+      ];
+
+      let sumaCantidades = 0;
+      let sumaMinutosGlobal = 0;
+
+      referenciasActivas.forEach(ref => {
+        let totalMinRef = ref.cant * ref.sam;
+        sumaCantidades += ref.cant;
+        sumaMinutosGlobal += totalMinRef;
+      });
+
+      referenciasActivas.forEach(ref => {
+        let totalMinRef = ref.cant * ref.sam;
+        let porcentajeMix = sumaMinutosGlobal > 0 ? ((totalMinRef / sumaMinutosGlobal) * 100).toFixed(1) : 0;
+        
+        let tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #f1f5f9';
+        tr.innerHTML = `
+          <td style="padding: 10px 12px; font-weight: 500; color: #1e293b;">${ref.nombre}</td>
+          <td style="padding: 10px 12px; text-align: center; font-weight: 600; color: #0284c7;">${ref.cant.toLocaleString()} unid</td>
+          <td style="padding: 10px 12px; text-align: center;">${ref.sam.toFixed(2)} min</td>
+          <td style="padding: 10px 12px; text-align: center; font-weight: 600;">${totalMinRef.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})} min</td>
+          <td style="padding: 10px 12px; text-align: center; color: #059669; font-weight: 600;">${porcentajeMix}%</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Fila de Totales de la Tabla
+      let trTotal = document.createElement('tr');
+      trTotal.style.background = '#f8fafc';
+      trTotal.style.fontWeight = '700';
+      trTotal.style.borderTop = '2px solid #cbd5e1';
+      trTotal.innerHTML = `
+        <td style="padding: 12px; color: #0f172a;">TOTALES / GLOBAL</td>
+        <td style="padding: 12px; text-align: center; color: #0284c7;">${sumaCantidades.toLocaleString()} unid</td>
+        <td style="padding: 12px; text-align: center; color: #64748b;">—</td>
+        <td style="padding: 12px; text-align: center; color: #0f172a;">${sumaMinutosGlobal.toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1})} min</td>
+        <td style="padding: 12px; text-align: center; color: #059669;">100.0%</td>
+      `;
+      tbody.appendChild(trTotal);
+
+      const samPonderadoGlobal = sumaCantidades > 0 ? (sumaMinutosGlobal / sumaCantidades).toFixed(2) : "11.39";
+
+      // Diagnóstico Ejecutivo
+      let textoAusentismoReporte = eficienciaPlanta === 100 
+        ? "La planta opera al <strong>100.0% de eficiencia de recursos humanos</strong> (sin incidencias de ausentismo reportadas)." 
+        : `Se registra impacto por ausentismo, operando la plantilla a una <strong>eficiencia real del ${eficienciaPlanta.toFixed(1)}%</strong> sobre la capacidad nominal.`;
+
+      document.getElementById('textoDiagnosticoEjecutivo').innerHTML = 
+        `<strong>Síntesis Operativa:</strong> El lote global de producción comprende <strong>${sumaCantidades.toLocaleString()} unidades</strong> distribuidas en el mix activo con un SAM ponderado de <strong>${samPonderadoGlobal} min</strong>. La carga total requerida asciende a <strong>${horasHombre.toFixed(2)} Horas-Hombre</strong>. La línea productiva requiere un horizonte de <strong>${diasPlanta.toFixed(2)} días</strong> de planta (bajo régimen regular de turnos), manteniendo un ritmo constante de salida de <strong>${ritmoDiario} unidades diarias</strong> para cumplir puntualmente con la entrega. ${textoAusentismoReporte}`;
+
+      document.getElementById('modalReporteASEING').style.display = 'block';
+    }
+
+    function cerrarReporteIndustrial() {
+      document.getElementById('modalReporteASEING').style.display = 'none';
+    }
+
+    function init3DChart() {
+      try {
+        if (typeof THREE === 'undefined') {
+          console.warn('Three.js library is not available yet.');
+          return;
+        }
+
+        const wrapper = document.getElementById('threeJsCanvasWrapper');
+        const canvas = document.getElementById('threeCanvas3D');
+        if (!wrapper || !canvas) return;
+
+        // Evitar reinicializar si ya existe el contexto
+        if (threeRenderer && threeScene && threeChartGroup) {
+          on3DResize();
+          return;
+        }
+
+        const width = wrapper.clientWidth || 350;
+        const height = wrapper.clientHeight || 230;
+
+        threeScene = new THREE.Scene();
+        threeCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
+        threeCamera.position.set(0, 5.2, 7.2);
+        threeCamera.lookAt(0, 0, 0);
+
+        threeRenderer = new THREE.WebGLRenderer({
+          canvas: canvas,
+          alpha: true,
+          antialias: true
+        });
+        threeRenderer.setSize(width, height);
+        threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+        threeScene.add(ambientLight);
+
+        const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
+        dirLight1.position.set(6, 12, 8);
+        threeScene.add(dirLight1);
+
+        const dirLight2 = new THREE.DirectionalLight(0x38bdf8, 0.6);
+        dirLight2.position.set(-6, 5, -6);
+        threeScene.add(dirLight2);
+
+        threeChartGroup = new THREE.Group();
+        threeChartGroup.rotation.x = 0.22; // Inclinación frontal para resaltar profundidad 3D
+        threeScene.add(threeChartGroup);
+
+        threeRaycaster = new THREE.Raycaster();
+        threeMouse = new THREE.Vector2();
+
+        // Eventos de rotación con Mouse y Táctil
+        canvas.addEventListener('mousedown', on3DPointerDown);
+        window.addEventListener('mousemove', on3DPointerMove);
+        window.addEventListener('mouseup', on3DPointerUp);
+
+        canvas.addEventListener('touchstart', on3DTouchStart, { passive: false });
+        window.addEventListener('touchmove', on3DTouchMove, { passive: false });
+        window.addEventListener('touchend', on3DTouchEnd);
+
+        window.addEventListener('resize', on3DResize);
+
+        // Observador automático de tamaño del contenedor para evitar lienzos en 0px
+        if (typeof ResizeObserver !== 'undefined') {
+          const resizeObserver = new ResizeObserver(() => {
+            on3DResize();
+          });
+          resizeObserver.observe(wrapper);
+        }
+
+        animate3D();
+      } catch (err) {
+        console.error('Error initializing 3D chart:', err);
+      }
+    }
+
+    function on3DResize() {
+      if (!threeRenderer || !threeCamera) return;
+      const wrapper = document.getElementById('threeJsCanvasWrapper');
+      if (!wrapper) return;
+      const width = wrapper.clientWidth || 350;
+      const height = wrapper.clientHeight || 230;
+      if (width === 0 || height === 0) return;
+      threeCamera.aspect = width / height;
+      threeCamera.updateProjectionMatrix();
+      threeRenderer.setSize(width, height);
+    }
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      if (threeChartGroup && is3DAutoRotating && !is3DDragging) {
+        threeChartGroup.rotation.y += 0.008;
+      }
+      if (threeRenderer && threeScene && threeCamera) {
+        threeRenderer.render(threeScene, threeCamera);
+      }
+    }
+
+    function on3DPointerDown(e) {
+      is3DDragging = true;
+      previous3DMousePosition = { x: e.clientX, y: e.clientY };
+    }
+
+    function on3DPointerMove(e) {
+      const wrapper = document.getElementById('threeJsCanvasWrapper');
+      const tooltip = document.getElementById('threeTooltip');
+      if (!wrapper) return;
+
+      const rect = wrapper.getBoundingClientRect();
+      const clientX = e.clientX - rect.left;
+      const clientY = e.clientY - rect.top;
+
+      if (clientX >= 0 && clientX <= rect.width && clientY >= 0 && clientY <= rect.height) {
+        threeMouse.x = (clientX / rect.width) * 2 - 1;
+        threeMouse.y = -(clientY / rect.height) * 2 + 1;
+
+        if (threeRaycaster && threeCamera && threeChartGroup) {
+          threeRaycaster.setFromCamera(threeMouse, threeCamera);
+          const intersects = threeRaycaster.intersectObjects(threeSlices, false);
+
+          if (intersects.length > 0) {
+            const mesh = intersects[0].object;
+            if (hovered3DSlice !== mesh) {
+              if (hovered3DSlice) hovered3DSlice.position.set(0, 0, 0);
+              hovered3DSlice = mesh;
+              // Elevate slice along normal vector
+              const midAngle = mesh.userData.midAngle || 0;
+              mesh.position.set(Math.cos(midAngle) * 0.22, 0.12, Math.sin(midAngle) * 0.22);
+            }
+
+            if (tooltip && mesh.userData) {
+              tooltip.style.display = 'block';
+              tooltip.style.left = `${clientX}px`;
+              tooltip.style.top = `${clientY}px`;
+              tooltip.innerHTML = `
+                <div class="font-bold text-white">${mesh.userData.name}</div>
+                <div class="text-[10px] text-blue-300 font-mono">${mesh.userData.sharePercent}% del turno · <span class="text-emerald-400">${mesh.userData.unitsShiftBase.toFixed(1)} unid</span></div>
+              `;
+            }
+          } else {
+            if (hovered3DSlice) {
+              hovered3DSlice.position.set(0, 0, 0);
+              hovered3DSlice = null;
+            }
+            if (tooltip) tooltip.style.display = 'none';
+          }
+        }
+      }
+
+      if (is3DDragging && threeChartGroup) {
+        const deltaX = e.clientX - previous3DMousePosition.x;
+        const deltaY = e.clientY - previous3DMousePosition.y;
+        threeChartGroup.rotation.y += deltaX * 0.01;
+        threeChartGroup.rotation.x += deltaY * 0.007;
+        previous3DMousePosition = { x: e.clientX, y: e.clientY };
+      }
+    }
+
+    function on3DPointerUp() {
+      is3DDragging = false;
+    }
+
+    function on3DTouchStart(e) {
+      if (e.touches.length === 1) {
+        is3DDragging = true;
+        previous3DMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    }
+
+    function on3DTouchMove(e) {
+      if (e.touches.length === 1 && is3DDragging && threeChartGroup) {
+        const deltaX = e.touches[0].clientX - previous3DMousePosition.x;
+        const deltaY = e.touches[0].clientY - previous3DMousePosition.y;
+        threeChartGroup.rotation.y += deltaX * 0.01;
+        threeChartGroup.rotation.x += deltaY * 0.007;
+        previous3DMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        e.preventDefault();
+      }
+    }
+
+    function on3DTouchEnd() {
+      is3DDragging = false;
+    }
+
+    function toggle3DAutoRotation() {
+      is3DAutoRotating = !is3DAutoRotating;
+      const icon = document.getElementById('icon3DRotate');
+      if (icon) {
+        icon.setAttribute('data-lucide', is3DAutoRotating ? 'pause' : 'play');
+        if (window.lucide) window.lucide.createIcons();
+      }
+      showToast(is3DAutoRotating ? 'Rotación 3D reanudada' : 'Rotación 3D pausada');
+    }
+
+    function reset3DCamera() {
+      if (threeChartGroup) {
+        threeChartGroup.rotation.set(0.22, 0, 0);
+      }
+      if (threeCamera) {
+        threeCamera.position.set(0, 5.2, 7.2);
+        threeCamera.lookAt(0, 0, 0);
+      }
+      showToast("Vista 3D restablecida");
+    }
+
+    function update3DChartData(metrics) {
+      if (typeof THREE === 'undefined') return;
+      if (!threeChartGroup) {
+        init3DChart();
+      }
+      if (!threeChartGroup) return;
+
+      // Limpiar geometrías previas sin fugas de memoria
+      while (threeChartGroup.children.length > 0) {
+        const obj = threeChartGroup.children[0];
+        threeChartGroup.remove(obj);
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) {
+          if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+          else obj.material.dispose();
+        }
+      }
+      threeSlices = [];
+
+      const breakdown = metrics.multiBreakdown || [];
+      if (breakdown.length === 0) return;
+
+      const outerR = 2.65;
+      const innerR = 1.15;
+      const height3D = 0.75;
+      const gapAngle = breakdown.length > 1 ? 0.035 : 0.04; // Separación visual entre bloques 3D
+      let startAngle = 0;
+
+      // Base central decorativa 3D para dar referencia visual de giro
+      const coreGeo = new THREE.CylinderGeometry(innerR * 0.72, innerR * 0.72, height3D * 0.5, 32);
+      const coreMat = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.4,
+        metalness: 0.5,
+        side: THREE.DoubleSide
+      });
+      const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+      threeChartGroup.add(coreMesh);
+
+      breakdown.forEach((item, idx) => {
+        const rawSweep = (item.sharePercent / 100) * Math.PI * 2;
+        if (rawSweep <= 0.001) return;
+
+        // Evitar que un ángulo de 360° exactos colapse la triangulación de ExtrudeGeometry
+        const effectiveSweep = Math.max(0.05, rawSweep - gapAngle);
+        const sliceStart = startAngle + (gapAngle / 2);
+        const midAngle = sliceStart + (effectiveSweep / 2);
+
+        const shape = new THREE.Shape();
+        const steps = Math.max(12, Math.floor(effectiveSweep * 16));
+
+        for (let s = 0; s <= steps; s++) {
+          const a = sliceStart + (effectiveSweep * (s / steps));
+          const x = Math.cos(a) * outerR;
+          const y = Math.sin(a) * outerR;
+          if (s === 0) shape.moveTo(x, y);
+          else shape.lineTo(x, y);
+        }
+
+        for (let s = steps; s >= 0; s--) {
+          const a = sliceStart + (effectiveSweep * (s / steps));
+          const x = Math.cos(a) * innerR;
+          const y = Math.sin(a) * innerR;
+          shape.lineTo(x, y);
+        }
+        shape.closePath();
+
+        const extrudeSettings = {
+          depth: height3D,
+          bevelEnabled: true,
+          bevelSegments: 3,
+          steps: 1,
+          bevelSize: 0.04,
+          bevelThickness: 0.04
+        };
+
+        const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        geometry.rotateX(Math.PI / 2);
+        // Centrar verticalmente la extrusión en Y=0
+        geometry.translate(0, height3D / 2, 0);
+
+        const material = new THREE.MeshStandardMaterial({
+          color: item.color || CHART_COLORS[idx % CHART_COLORS.length],
+          roughness: 0.25,
+          metalness: 0.2,
+          side: THREE.DoubleSide
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.userData = {
+          id: item.id,
+          name: item.name,
+          sharePercent: item.sharePercent,
+          unitsShiftBase: item.unitsShiftBase,
+          midAngle: midAngle
+        };
+
+        threeChartGroup.add(mesh);
+        threeSlices.push(mesh);
+
+        startAngle += rawSweep;
+      });
+
+      // Actualizar leyendas inferiores
+      const legendContainer = document.getElementById('threeJsChartLegend');
+      if (legendContainer) {
+        legendContainer.innerHTML = '';
+        breakdown.forEach((item, idx) => {
+          const hexColor = '#' + (item.color || CHART_COLORS[idx % CHART_COLORS.length]).toString(16).padStart(6, '0');
+          const badge = document.createElement('div');
+          badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#121418] border border-slate-800 text-[11px]";
+          badge.innerHTML = `
+            <span class="w-2.5 h-2.5 rounded-full shrink-0 shadow-sm" style="background-color: ${hexColor}"></span>
+            <span class="font-bold text-slate-200 truncate max-w-[110px] sm:max-w-none">${item.name}:</span>
+            <span class="font-mono text-blue-400 font-extrabold">${item.sharePercent}%</span>
+            <span class="text-slate-500">(${item.unitsShiftBase.toFixed(0)}u)</span>
+          `;
+          legendContainer.appendChild(badge);
+        });
+      }
+    }
+
+    function renderApp() {
+      const metrics = computeProductionMetrics();
+      const activeRef = getActiveReference();
+
+      // Screen 1: Header Titles and KPIs
+      const dashRefName = document.getElementById('dashReferenceName');
+      const dashRefMeta = document.getElementById('dashReferenceMeta');
+      if (dashRefName) dashRefName.textContent = activeRef.name;
+      if (dashRefMeta) dashRefMeta.textContent = `${metrics.baseOps} operarios · ${metrics.hours} hrs/día`;
+
+      document.getElementById('kpiStandardTime').textContent = metrics.sam.toFixed(2);
+      document.getElementById('kpiProdHour').textContent = metrics.prodHourBase.toFixed(2);
+      document.getElementById('kpiProdShift').textContent = metrics.prodShiftBase.toFixed(2);
+      document.getElementById('kpiOrderUnits').textContent = appState.orderUnits.toLocaleString('es-EC');
+
+      // Toggle Single vs Multi View
+      const viewSingle = document.getElementById('viewSingleRef');
+      const viewMulti = document.getElementById('viewMultiRef');
+      const btnModeSingle = document.getElementById('btnModeSingle');
+      const btnModeMulti = document.getElementById('btnModeMulti');
+      const multiBreakdownCard = document.getElementById('multiBreakdownCard');
+
+      if (appState.planningMode === 'multi') {
+        if (viewSingle) viewSingle.classList.add('hidden');
+        if (viewMulti) viewMulti.classList.remove('hidden');
+        if (btnModeMulti) btnModeMulti.className = "px-2 py-1 rounded font-semibold bg-blue-600 text-white transition-all";
+        if (btnModeSingle) btnModeSingle.className = "px-2 py-1 rounded font-semibold text-slate-400 hover:text-white transition-all";
+        if (multiBreakdownCard) multiBreakdownCard.classList.remove('hidden');
+
+        renderMultiMixControls(metrics);
+        renderMultiBreakdownTable(metrics);
+      } else {
+        if (viewSingle) viewSingle.classList.remove('hidden');
+        if (viewMulti) viewMulti.classList.add('hidden');
+        if (btnModeSingle) btnModeSingle.className = "px-2 py-1 rounded font-semibold bg-blue-600 text-white transition-all";
+        if (btnModeMulti) btnModeMulti.className = "px-2 py-1 rounded font-semibold text-slate-400 hover:text-white transition-all";
+        if (multiBreakdownCard) multiBreakdownCard.classList.add('hidden');
+      }
+
+      // Update 3D Chart with current metrics
+      update3DChartData(metrics);
+
+      // Screen 2: Catalog Stats & Table
+      updateCatalogStats();
+      renderCatalogTable();
+
+      // Screen 3: Capacidad Setup
+      const capDesc = document.getElementById('capPlanModeDesc');
+      const capName = document.getElementById('capRefName');
+      const capTime = document.getElementById('capRefTime');
+      const singleOrderBlock = document.getElementById('singleOrderInputBlock');
+      const multiOrderBlock = document.getElementById('multiOrderInputBlock');
+
+      if (appState.planningMode === 'multi') {
+        if (capDesc) capDesc.textContent = "Modo Multi-Turno:";
+        if (capName) capName.textContent = `${getSelectedMultiReferences().length} prendas en mix`;
+        if (capTime) capTime.textContent = `${metrics.sam.toFixed(2)} min (ponderado)`;
+        if (singleOrderBlock) singleOrderBlock.classList.add('hidden');
+        if (multiOrderBlock) multiOrderBlock.classList.remove('hidden');
+        renderMultiOrderInputs(metrics);
+      } else {
+        if (capDesc) capDesc.textContent = "Modo Individual:";
+        if (capName) capName.textContent = activeRef.name;
+        if (capTime) capTime.textContent = `${parseFloat(activeRef.standardTime).toFixed(2)} min/unidad`;
+        if (singleOrderBlock) singleOrderBlock.classList.remove('hidden');
+        if (multiOrderBlock) multiOrderBlock.classList.add('hidden');
+      }
+
+      updateShiftRegimeUI();
+      calculateCapacity();
+
+      // Screen 4: Mano de Obra Values
+      document.getElementById('displayBaseWorkers').textContent = metrics.baseOps;
+      document.getElementById('displayHoursDay').textContent = metrics.hours;
+      document.getElementById('displayAbsentWorkers').textContent = metrics.absent;
+
+      const statusBanner = document.getElementById('statusPlantBanner');
+      const statusText = document.getElementById('statusPlantText');
+      if (metrics.absent === 0) {
+        statusBanner.className = "p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/60 text-emerald-300 text-xs flex items-center gap-2 font-medium";
+        statusText.textContent = `Planta completa: ${metrics.baseOps} operarios activos`;
+      } else {
+        statusBanner.className = "p-3 rounded-xl bg-amber-950/40 border border-amber-800/60 text-amber-200 text-xs flex items-center gap-2 font-medium";
+        statusText.textContent = `Ausentismo: ${metrics.absent} ausentes · ${metrics.activeOps} activos`;
+      }
+
+      document.getElementById('compBaseUnits').textContent = metrics.prodShiftBase.toFixed(2);
+      document.getElementById('compRealUnits').textContent = metrics.prodShiftReal.toFixed(2);
+      document.getElementById('compLostUnits').textContent = metrics.lostUnits.toFixed(2);
+      document.getElementById('compBaseMeta').textContent = `${metrics.baseOps} operarios · ${metrics.hours} hrs/día`;
+      document.getElementById('compRealMeta').textContent = `${metrics.activeOps} operarios · ${metrics.hours} hrs/día`;
+
+      const barReal = document.getElementById('barReal');
+      const barLost = document.getElementById('barLost');
+      const realPercent = metrics.prodShiftBase > 0 ? (metrics.prodShiftReal / metrics.prodShiftBase) * 100 : 0;
+      if (barReal) barReal.style.width = `${Math.min(100, Math.max(0, realPercent))}%`;
+      if (barLost) barLost.style.width = `${Math.min(100, Math.max(0, 100 - realPercent))}%`;
+
+      document.getElementById('indStandardTime').textContent = metrics.sam.toFixed(2);
+      document.getElementById('indProdHourBase').textContent = metrics.prodHourBase.toFixed(2);
+      document.getElementById('indProdHourReal').textContent = metrics.prodHourReal.toFixed(2);
+      document.getElementById('indEfficiencyReal').textContent = `${metrics.efficiencyReal.toFixed(0)}%`;
+
+      // Plant Efficiency Gauge (relocated to Mano de Obra)
+      const dashEffCircle = document.getElementById('dashEffCircle');
+      const dashEffText = document.getElementById('dashEffText');
+      if (dashEffCircle && dashEffText) {
+        const offset = 125.6 - (125.6 * (metrics.efficiencyReal / 100));
+        dashEffCircle.style.strokeDashoffset = offset;
+        dashEffText.textContent = `${metrics.efficiencyReal.toFixed(0)}%`;
+        if (metrics.efficiencyReal >= 90) {
+          dashEffCircle.setAttribute('class', 'stroke-emerald-500 transition-all duration-500');
+        } else if (metrics.efficiencyReal >= 70) {
+          dashEffCircle.setAttribute('class', 'stroke-amber-500 transition-all duration-500');
+        } else {
+          dashEffCircle.setAttribute('class', 'stroke-rose-500 transition-all duration-500');
+        }
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function navigateToTab(tabId) {
+      appState.activeTab = tabId;
+
+      const screens = ['estudio', 'catalogo', 'capacidad', 'mano-obra'];
+      screens.forEach(s => {
+        const el = document.getElementById(`screen-${s}`);
+        if (el) {
+          if (s === tabId) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+      });
+
+      screens.forEach(s => {
+        const btn = document.getElementById(`navTab-${s}`);
+        if (btn) {
+          if (s === tabId) {
+            btn.classList.add('text-blue-500');
+            btn.classList.remove('text-slate-400');
+          } else {
+            btn.classList.remove('text-blue-500');
+            btn.classList.add('text-slate-400');
+          }
+        }
+      });
+
+      const scroller = document.getElementById('screenContainer');
+      if (scroller) scroller.scrollTop = 0;
+
+      if (tabId === 'capacidad') {
+        calculateCapacity();
+      }
+
+      if (tabId === 'estudio') {
+        setTimeout(on3DResize, 100);
+      }
+
+      if (window.lucide) window.lucide.createIcons();
+    }
+
+    function updateCatalogStats() {
+      const total = appState.catalog.length;
+      const categories = new Set(appState.catalog.map(r => r.category)).size;
+      const avgTime = total > 0 ? (appState.catalog.reduce((sum, r) => sum + r.standardTime, 0) / total) : 0;
+      
+      const elTotal = document.getElementById('catKpiTotal');
+      const elCat = document.getElementById('catKpiCat');
+      const elAvg = document.getElementById('catKpiAvg');
+      
+      if (elTotal) elTotal.textContent = total;
+      if (elCat) elCat.textContent = categories;
+      if (elAvg) elAvg.textContent = avgTime.toFixed(2);
+    }
+
+    function exportDataJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `plan_produccion_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("Archivo JSON exportado");
+    }
+
+    function resetData() {
+      localStorage.removeItem('prod_planner_state_v1');
+      appState = {
+        activeTab: 'estudio',
+        viewMode: 'mobile',
+        theme: 'dark',
+        planningMode: 'single',
+        catalog: [...DEFAULT_CATALOG],
+        activeReferenceId: 'ref-2',
+        multiConfig: {
+          'ref-2': { selected: true, sharePercent: 50, orderUnits: 300 },
+          'ref-1': { selected: true, sharePercent: 50, orderUnits: 200 }
+        },
+        workersBase: 8,
+        hoursPerDay: 8,
+        shiftsPerDay: 1,
+        absentWorkers: 0,
+        orderUnits: 500
+      };
+      saveState();
+      renderApp();
+      navigateToTab('estudio');
+      showToast("Datos restablecidos a valores iniciales");
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toastMessage');
+      if (!toast || !text) return;
+      text.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const clockEl = document.getElementById('currentTime');
+      if (clockEl) clockEl.textContent = `${hours}:${minutes}`;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      applyTheme(appState.theme || 'dark');
+      init3DChart();
+      renderApp();
+      navigateToTab(appState.activeTab || 'estudio');
+      updateClock();
+      setInterval(updateClock, 30000);
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModalReference();
+          cerrarReporteIndustrial();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
